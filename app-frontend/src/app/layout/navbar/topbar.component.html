@@ -1,0 +1,9 @@
+<nav>
+  <button *ngIf="!auth.isLoggedIn()" routerLink="/">Inicio</button >
+  <button *ngIf="!auth.isLoggedIn()" routerLink="/login">Login</button >
+  <button *ngIf="!auth.isLoggedIn()" routerLink="/register">Registro</button >
+  <button *ngIf="auth.isLoggedIn()" routerLink="/profile">Perfil</button >
+  <button *ngIf="auth.isLoggedIn()" (click)="logout()">Logout</button >
+</nav>
+
+<hr>

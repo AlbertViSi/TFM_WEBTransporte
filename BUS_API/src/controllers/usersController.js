@@ -1,4 +1,5 @@
 const usersService = require('../services/usersService');
+const db = require('../config/db');
 
 exports.registerUser = async (req, res) => {
 
@@ -22,6 +23,25 @@ exports.registerUser = async (req, res) => {
       error: "Error creando usuario"
     });
 
+  }
+
+};
+
+exports.getProfile = async (req, res) => {
+
+  try {
+
+    const user = await db.query(
+      `SELECT id, username, email, role_id 
+       FROM users 
+       WHERE id = $1`,
+      [req.user.id]
+    );
+
+    res.json(user.rows[0]);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 
 };

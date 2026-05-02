@@ -2,32 +2,34 @@ const express = require('express');
 const router = express.Router();
 
 const routesController = require('../controllers/routesController');
-const { authenticateToken, authorizeRoles } = require('../middlewares/authMiddleware');
-const routesController = require('../controllers/routesController');
+const { verifyToken, allowRoles } = require('../middlewares/authMiddleware');
+const { ROLES } = require('../middlewares/roles')
 
 router.put(
   '/:id/capacity',
-  authenticateToken,
-  authorizeRoles('admin'),
+  verifyToken,
+  allowRoles(ROLES.admin),
   routesController.updateCapacity
 );
 
 router.put(
   '/:id/base-price',
-  authenticateToken,
-  authorizeRoles('admin'),
+  verifyToken,
+  allowRoles(ROLES.admin),
   routesController.updateBasePrice
 );
 
 router.get(
   '/',
-  authenticateToken,
-  authorizeRoles('admin'),
+  verifyToken,
+  allowRoles(ROLES.admin),
   routesController.getAllRoutes
 );
 
 //Busqueda basica sin requerir login
 router.get('/search', routesController.searchRoutes);
 
+
+router.get('/detail/:route_id', routesController.getRouteDetail)
 
 module.exports = router;

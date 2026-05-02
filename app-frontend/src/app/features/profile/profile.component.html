@@ -1,0 +1,48 @@
+<h2>Perfil</h2>
+
+<div *ngIf="user">
+
+  <p>
+    <strong>Usuario:</strong> {{ user?.username }}
+  </p>
+
+  <p>
+    <strong>Email:</strong> {{ user?.email }}
+  </p>
+
+</div>
+
+<div *ngIf="!user">
+  <p>Fallo en la carga de datos</p>
+
+  <button (click)="loadProfile()">
+    Recargar perfil
+  </button>
+</div>
+
+<hr>
+
+<h3>Cambiar contraseña</h3>
+
+<form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+
+  <div>
+    <label>Contraseña actual</label>
+    <input type="password" formControlName="currentPassword">
+  </div>
+
+  <div>
+    <label>Nueva contraseña</label>
+    <input type="password" formControlName="newPassword">
+  </div>
+
+  <div>
+    <label>Confirmar contraseña</label>
+    <input type="password" formControlName="confirmPassword">
+  </div>
+
+  <button type="submit">
+    Cambiar contraseña
+  </button>
+
+</form>

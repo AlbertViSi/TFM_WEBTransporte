@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="search()">
+
+  <p>Origen</p>
+  <app-autofill 
+    label="Origen"
+    [options]="origins"
+    (selected)="setOrigin($event)"
+  ></app-autofill>
+
+  <p>Destino</p>
+  <app-autofill 
+    label="Destino"
+    [options]="destinations"
+    (selected)="setDestination($event)"
+  ></app-autofill>
+
+  <p>Fecha</p>
+  <input 
+    type="date"
+    [min]="minDate"
+    formControlName="date"
+  />
+
+  <button type="submit" 
+    [disabled]="form.invalid || !originId || !destinationId">
+    Buscar
+  </button>
+
+</form>

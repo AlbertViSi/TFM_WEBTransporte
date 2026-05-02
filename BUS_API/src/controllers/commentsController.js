@@ -17,6 +17,18 @@ exports.createComment = async (req, res) => {
   }
 };
 
+exports.getCommentsByRoute = async (req, res) => {
+  try {
+    const route_id = req.params.route_id;
+
+    const comments = await commentsService.getCommentsByRoute(route_id);
+
+    res.json(comments);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 exports.deleteComment = async (req, res) => {
   try {
     const comment_id = req.params.id;

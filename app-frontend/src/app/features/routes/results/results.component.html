@@ -1,0 +1,35 @@
+<h2>Resultados</h2>
+
+<div *ngIf="loading">
+  Cargando...
+</div>
+
+
+<div *ngIf="!loading && results.length > 0">
+  <mat-card *ngFor="let route of results" (click)="goToDetail(route)" class="clickable-card">
+    <mat-card-title>
+      {{ route.route_name }}
+    </mat-card-title>
+
+    <mat-card-content>
+      <p>
+        Distancia:
+        {{ route.estimated_distance | number:'1.0-2' }} km
+      </p>
+
+      <p>
+        Precio:
+        {{ route.estimated_price | currency:'EUR' }}
+      </p>
+
+      <p>
+        Plazas disponibles:
+        {{ route.available_seats }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="!loading && results.length === 0">
+  No se encontraron rutas disponibles
+</div>

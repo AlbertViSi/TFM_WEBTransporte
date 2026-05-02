@@ -1,0 +1,42 @@
+<h2>Gestión de Baneos</h2>
+
+<button (click)="goToBanCreate()">
+  Añadir Ban
+</button>
+
+<br><br>
+
+<input
+  type="text"
+  placeholder="Buscar DNI"
+  [(ngModel)]="search"
+/>
+
+<hr>
+
+<table>
+
+<tr>
+  <th>DNI</th>
+  <th>Razón</th>
+  <th>Expiración</th>
+  <th>Estado</th>
+  <th></th>
+</tr>
+
+<tr *ngFor="let ban of filteredBans">
+
+  <td>{{ ban.dni }}</td>
+  <td>{{ ban.reason }}</td>
+  <td>{{ ban.expires_at | date }}</td>
+  <td>{{ ban.status }}</td>
+
+  <td>
+    <button (click)="deleteBan(ban.id)">
+      Eliminar
+    </button>
+  </td>
+
+</tr>
+
+</table>

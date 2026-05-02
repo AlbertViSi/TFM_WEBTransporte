@@ -1,6 +1,7 @@
 const reservationsService = require('../services/reservationsService');
 
 exports.createReservation = async (req, res) => {
+
   try {
     const {
       route_id,
@@ -11,12 +12,15 @@ exports.createReservation = async (req, res) => {
     } = req.body;
     const user_id = req.user.id;
 
-    if (!route_id || !departure_date || !dni || !origin_node_id || !destination_node_id) {
+    console.log("paso 1");
+    if (route_id === undefined || route_id === null || !departure_date || !dni || !origin_node_id || !destination_node_id) {
+      console.log("error 1");
+      console.log(req.body);
       return res.status(400).json({
         error: "Faltan parámetros obligatorios"
       });
     }
-
+    console.log("paso 2");
     const reservation = await reservationsService.createReservation(
       user_id,
       route_id,
@@ -25,9 +29,11 @@ exports.createReservation = async (req, res) => {
       origin_node_id,
       destination_node_id
     );
+    console.log("paso 3");
 
     res.status(201).json(reservation);
   } catch (error) {
+    console.error("ERROR SQL:", error);
     res.status(400).json({ error: error.message });
   }
 };

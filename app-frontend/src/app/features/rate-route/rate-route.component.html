@@ -1,0 +1,30 @@
+<h2>Valorar Ruta</h2>
+
+<div>
+
+  <label>Puntuación:</label>
+
+  <select [(ngModel)]="rating">
+    <option [value]="1">1</option>
+    <option [value]="2">2</option>
+    <option [value]="3">3</option>
+    <option [value]="4">4</option>
+    <option [value]="5">5</option>
+  </select>
+
+</div>
+
+<div>
+
+  <label>Comentario:</label>
+
+  <textarea 
+    [(ngModel)]="comment"
+    rows="4"
+  ></textarea>
+
+</div>
+
+<button (click)="submit()">
+  Enviar valoración
+</button>

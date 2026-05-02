@@ -20,8 +20,9 @@ exports.verifyToken = (req, res, next) => {
 };
 
 // Roles
-exports.allowRoles = (...roles) => (req, res, next) => {
-  if (!roles.includes(req.user.role)) {
+exports.allowRoles = (...roleIds) => (req, res, next) => {
+  
+  if (!roleIds.includes(req.user.role_id)) {
     return res.status(403).json({ error: "No autorizado" });
   }
   next();

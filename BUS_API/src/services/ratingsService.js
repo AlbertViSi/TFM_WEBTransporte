@@ -4,7 +4,7 @@ exports.createOrUpdateRating = async (user_id, route_id, rating) => {
   const reservation = await db.query(
     `
     SELECT id FROM reservations
-    WHERE user_id = $1 AND route_id = $2 AND status = 'completed'
+    WHERE user_id = $1 AND route_id = $2 AND status = 'completado'
     LIMIT 1
     `,
     [user_id, route_id]

@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const authController = require('../controllers/authController');
-const { authenticateToken } = require('../middlewares/authMiddleware');
+const { verifyToken } = require('../middlewares/authMiddleware');
 
-router.post('/login', authController.login);
 router.put(
   '/change-password',
-  authenticateToken,
+  verifyToken,
   authController.changePassword
 );
 

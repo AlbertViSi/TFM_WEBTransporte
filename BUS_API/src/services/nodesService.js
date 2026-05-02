@@ -96,3 +96,93 @@ exports.reassignSubnode = async (id, new_parent_id) => {
     throw new Error("Subnodo no encontrado");
   return result.rows[0];
 };
+
+exports.getAvailableDestinations = async (originId) => {
+
+  // Obtener nodo
+  const nodeResult = await db.query(
+    `
+    SELECT id, node_type, parent_node_id
+    FROM nodes
+    WHERE id = $1
+    `,
+    [originId]
+  );
+
+  if (nodeResult.rowCount === 0) {
+    return [];
+  }
+
+  let node = nodeResult.rows[0];
+
+  // Si es subnodo
+  if (node.node_type === 'sub') {
+    const mainNode = await db.query(
+      `
+      SELECT id, name, node_type, parent_node_id
+      FROM nodes
+      WHERE id = $1
+      `,
+      [node.parent_node_id]
+    );
+
+    //subnodos hermanos
+    const subnodes = await db.query(
+      `
+      SELECT id, name, node_type, parent_node_id
+      FROM nodes
+      WHERE parent_node_id = $1
+      AND id != $2
+      `,
+      [node.parent_node_id, node.id]
+    );
+
+    return [
+      ...mainNode.rows,
+      ...subnodes.rows
+    ];
+  }
+
+  // Obtener rutas donde está el nodo
+  const routes = await db.query(
+    `
+    SELECT route_id
+    FROM route_nodes
+    WHERE node_id = $1
+    `,
+    [node.id]
+  );
+
+  if (routes.rowCount === 0) {
+    return [];
+  }
+
+  const routeIds = routes.rows.map(r => r.route_id);
+
+  // Obtener nodos de esas rutas
+  const nodes = await db.query(
+    `
+    SELECT DISTINCT n.id, n.name, n.node_type, n.parent_node_id
+    FROM route_nodes rn
+    JOIN nodes n ON n.id = rn.node_id
+    WHERE rn.route_id = ANY($1)
+    `,
+    [routeIds]
+  );
+
+  // Obtener subnodos del nodo principal
+  const subnodes = await db.query(
+    `
+    SELECT id, name, node_type, parent_node_id
+    FROM nodes
+    WHERE parent_node_id = $1
+    `,
+    [node.id]
+  );
+
+  return [
+    ...nodes.rows,
+    ...subnodes.rows
+  ].filter(n => n.id !== node.id);
+
+};

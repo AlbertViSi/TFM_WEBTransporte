@@ -1,0 +1,42 @@
+<div *ngIf="paymentMethod === 'card'">
+
+  <h2>Pago con tarjeta</h2>
+
+  <form [formGroup]="cardForm" (ngSubmit)="payCard()">
+
+    <label>Número tarjeta</label>
+    <input type="text" formControlName="cardNumber">
+
+    <label>Titular</label>
+    <input type="text" formControlName="holder">
+
+    <label>Caducidad</label>
+    <input type="month" formControlName="expiry">
+
+    <label>CVV</label>
+    <input type="text" formControlName="cvv">
+
+    <button type="submit">
+      Pagar
+    </button>
+
+  </form>
+
+</div>
+
+<div *ngIf="paymentMethod === 'bizum'">
+
+  <h2>Pago con Bizum</h2>
+
+  <form [formGroup]="bizumForm" (ngSubmit)="payBizum()">
+
+    <label>Teléfono</label>
+    <input type="text" formControlName="phone">
+
+    <button type="submit">
+      Pagar
+    </button>
+
+  </form>
+
+</div>

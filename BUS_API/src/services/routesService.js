@@ -18,6 +18,45 @@ function getDistance(lat1, lon1, lat2, lon2) {
 }
 
 exports.searchRoutes = async (origin_node_id, destination_node_id, departure_date) => {
+  const isValid = await validateNodes(origin_node_id, destination_node_id);
+
+  if (!isValid) {
+    throw new Error("Origen y destino no están conectados");
+  }
+
+  //Logica si hay subnodos
+  const originNode = await db.query(
+    `SELECT * FROM nodes WHERE id = $1`,
+    [origin_node_id]
+  );
+
+  const destinationNode = await db.query(
+    `SELECT * FROM nodes WHERE id = $1`,
+    [destination_node_id]
+  );
+
+  const origin = originNode.rows[0];
+  const destination = destinationNode.rows[0];
+
+  if (origin.node_type === "sub" || destination.node_type === "sub") {
+    const distance = getDistance(
+      origin.latitude,
+      origin.longitude,
+      destination.latitude,
+      destination.longitude
+    );
+    const price = distance * 0.1;
+
+    return [{
+      route_id: null,
+      route_name: "Viaje local",
+      estimated_distance: distance,
+      estimated_price: price,
+      available_seats: 999
+    }];
+  }
+
+  //Logica main nodes
   const routes = await db.query(
     `
     SELECT DISTINCT r.id, r.name, r.base_price, r.capacity
@@ -147,4 +186,137 @@ exports.getAllRoutes = async () => {
     ORDER BY name
   `);
   return result.rows;
+};
+
+async function validateNodes(originId, destinationId) {
+
+  // Obtener nodos
+  const nodes = await db.query(
+    `
+    SELECT id, node_type, parent_node_id
+    FROM nodes
+    WHERE id IN ($1, $2)
+    `,
+    [originId, destinationId]
+  );
+
+  if (nodes.rowCount !== 2) return false;
+
+  const origin = nodes.rows.find(n => n.id == originId);
+  const destination = nodes.rows.find(n => n.id == destinationId);
+
+  // subnodo -> nodo principal
+  if (origin.parent_node_id === destination.id) return true;
+  if (destination.parent_node_id === origin.id) return true;
+
+  // mismo parent
+  if (
+    origin.parent_node_id &&
+    origin.parent_node_id === destination.parent_node_id
+  ) return true;
+
+  // comprobar misma ruta
+  const routeCheck = await db.query(
+    `
+    SELECT 1
+    FROM route_nodes rn1
+    JOIN route_nodes rn2
+      ON rn1.route_id = rn2.route_id
+    WHERE rn1.node_id = $1
+    AND rn2.node_id = $2
+    LIMIT 1
+    `,
+    [originId, destinationId]
+  );
+
+  return routeCheck.rowCount > 0;
+}
+
+async function validateNodes(origin_node_id, destination_node_id) {
+  const nodes = await db.query(
+    `
+    SELECT id, node_type, parent_node_id
+    FROM nodes
+    WHERE id IN ($1, $2)
+    `,
+    [origin_node_id, destination_node_id]
+  );
+
+  if (nodes.rowCount !== 2) return false;
+
+  const origin = nodes.rows.find(n => n.id == origin_node_id);
+  const destination = nodes.rows.find(n => n.id == destination_node_id);
+
+  if (origin.parent_node_id === destination.id) return true;
+  if (destination.parent_node_id === origin.id) return true;
+
+  if (
+    origin.parent_node_id &&
+    origin.parent_node_id === destination.parent_node_id
+  ) return true;
+
+  const routeCheck = await db.query(
+    `
+    SELECT 1
+    FROM route_nodes rn1
+    JOIN route_nodes rn2
+    ON rn1.route_id = rn2.route_id
+    WHERE rn1.node_id = $1
+    AND rn2.node_id = $2
+    LIMIT 1
+    `,
+    [origin_node_id, destination_node_id]
+  );
+
+  return routeCheck.rowCount > 0;
+}
+
+exports.getRouteDetail = async (route_id) => {
+
+  if (Number(route_id) === 0) {
+    return {
+      route: {
+        id: 0,
+        name: 'Viaje local'
+      },
+      rating_avg: 0,
+      rating_count: 0,
+      comments: []
+    };
+  };
+
+  const route = await db.query(
+    `
+    SELECT id, name
+    FROM routes
+    WHERE id = $1
+    `,
+    [route_id]
+  );
+  const rating = await db.query(
+    `
+    SELECT AVG(rating) as rating_avg, COUNT(*) as rating_count
+    FROM ratings
+    WHERE route_id = $1
+    `,
+    [route_id]
+  );
+  const comments = await db.query(
+    `
+    SELECT c.content, c.user_id, c.created_at, u.username
+    FROM comments c
+    JOIN users u 
+      ON u.id = c.user_id
+    WHERE c.route_id = $1
+    ORDER BY c.created_at DESC
+    `,
+    [route_id]
+  );
+
+  return {
+    route: route.rows[0],
+    rating_avg: Number(Number(rating.rows[0].rating_avg).toFixed(1)) || 0,
+    rating_count: Number(Number(rating.rows[0].rating_count).toFixed(1)) || 0,
+    comments: comments.rows
+  };
 };

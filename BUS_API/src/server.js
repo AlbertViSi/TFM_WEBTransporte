@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 
 const db = require('./config/db');
@@ -13,10 +14,16 @@ const routesRoutes = require('./routes/routes');
 const commentsRoutes = require('./routes/comments');
 const ratingsRoutes = require('./routes/ratings');
 const reservationsRoutes = require('./routes/reservations');
+const loginRoutes = require('./routes/login');
 
 const app = express();
 const port = 3000;
 
+app.use(cors({
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Usa Rutas
@@ -29,6 +36,7 @@ app.use('/routes', routesRoutes);
 app.use('/comments', commentsRoutes);
 app.use('/ratings', ratingsRoutes);
 app.use('/reservations', reservationsRoutes);
+app.use('/login', loginRoutes);
 
 //Endpoint de prueba
 app.get('/', (req, res) => {

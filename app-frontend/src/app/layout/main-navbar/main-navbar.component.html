@@ -1,0 +1,23 @@
+<nav *ngIf="user$ | async as user">
+
+  <a *ngIf="user.role_id === 2" routerLink="/">
+    Trayectos
+  </a>
+
+  <a *ngIf="user.role_id === 2" routerLink="/my-reservations">
+    Mis reservas
+  </a>
+
+  <a *ngIf="user.role_id === 1 || user.role_id === 3 || user.role_id === 4" routerLink="/nodos">
+    Nodos
+  </a>
+
+  <a *ngIf="user.role_id === 1 || user.role_id === 3" routerLink="/listbans">
+    Lista bans
+  </a>
+
+  <a *ngIf="user.role_id === 1" routerLink="/listausuarios">
+    Lista usuarios
+  </a>
+
+</nav>

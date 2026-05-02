@@ -1,0 +1,43 @@
+<h1>Reserva</h1>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <label>DNI</label>
+  <input type="text" formControlName="dni" style="text-transform: uppercase">
+  <div *ngIf="form.get('dni')?.touched && form.get('dni')?.invalid">
+    <small *ngIf="form.get('dni')?.errors?.['required']">
+      El DNI es obligatorio
+    </small>
+
+    <small *ngIf="form.get('dni')?.errors?.['invalidFormat']">
+      Formato inválido (12345678A)
+    </small>
+
+    <small *ngIf="form.get('dni')?.errors?.['invalidLetter']">
+      Letra del DNI incorrecta
+    </small>
+  </div>
+
+  <h3>Método de pago</h3>
+
+  <label>
+    <input 
+      type="radio" 
+      value="card" 
+      formControlName="paymentMethod">
+    Tarjeta
+  </label>
+
+  <label>
+    <input 
+      type="radio" 
+      value="bizum" 
+      formControlName="paymentMethod">
+    Bizum
+  </label>
+
+  <button type="submit">
+    Continuar
+  </button>
+
+</form>

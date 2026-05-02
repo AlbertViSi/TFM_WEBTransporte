@@ -1,0 +1,38 @@
+<h2>Crear Ban</h2>
+
+<form (ngSubmit)="submit()">
+
+  <div>
+    <label>DNI</label>
+    <input 
+      type="text"
+      [(ngModel)]="dni"
+      name="dni"
+      required
+    />
+  </div>
+
+  <div>
+    <label>Razón</label>
+    <input 
+      type="text"
+      [(ngModel)]="reason"
+      name="reason"
+      required
+    />
+  </div>
+
+  <div>
+    <label>Fecha Expiración</label>
+    <input 
+      type="date"
+      [(ngModel)]="expires_at"
+      name="expires_at"
+    />
+  </div>
+
+  <button type="submit">
+    Crear Ban
+  </button>
+
+</form>

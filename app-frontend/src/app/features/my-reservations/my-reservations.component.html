@@ -1,0 +1,70 @@
+<div>
+
+  <h2>Mis Reservas</h2>
+
+  <div *ngIf="loading">
+    Cargando reservas...
+  </div>
+
+  <div *ngIf="!loading && reservations.length === 0">
+    No tienes reservas
+  </div>
+
+  <div *ngFor="let reservation of reservations">
+
+    <h3>{{ reservation.route_name }}</h3>
+
+    <p>
+      <strong>Origen:</strong>
+      {{ reservation.origin_name }}
+    </p>
+
+    <p>
+      <strong>Destino:</strong>
+      {{ reservation.destination_name }}
+    </p>
+
+    <p>
+      <strong>Fecha:</strong>
+      {{ reservation.departure_date | date:'dd/MM/yyyy HH:mm' }}
+    </p>
+
+    <p>
+      <strong>Referencia:</strong>
+      {{ reservation.id }}
+    </p>
+
+    <p>
+      <strong>Coste:</strong>
+      {{ reservation.total_price }} €
+    </p>
+
+    <p>
+      <strong>DNI:</strong>
+      {{ reservation.dni }}
+    </p>
+
+    <p>
+      <strong>Estado:</strong>
+      {{ reservation.status }}
+    </p>
+
+    <button 
+      (click)="cancelReservation(reservation.id)"
+      *ngIf="reservation.status === 'pendiente'"
+    >
+      Cancelar reserva
+    </button>
+
+    <button 
+      (click)="goToRating(reservation.route_id)"
+      *ngIf="reservation.status === 'completado' && reservation.route_id !== 0"
+    >
+      Valorar
+    </button>
+
+    <hr>
+
+  </div>
+
+</div>

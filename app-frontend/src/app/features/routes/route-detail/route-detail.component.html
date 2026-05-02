@@ -1,0 +1,40 @@
+<h1>Detalles</h1>
+
+<mat-card *ngIf="route">
+
+  <h2>Ruta {{ route.name }}</h2>
+
+  <p>
+    {{ originName }} - {{ destinationName }}
+  </p>
+
+  <p>Price: {{price}}€</p>
+
+  <p>
+    ⭐ {{ ratingAvg }} ({{ ratingCount }} valoraciones)
+  </p>
+
+</mat-card>
+
+<button 
+  *ngIf="isLogged"
+  (click)="goToReservation()"
+  mat-raised-button
+  color="primary"
+>
+  Reservar
+</button>
+
+<h3>Comentarios</h3>
+
+<mat-card *ngFor="let comment of comments">
+
+  <strong>{{ comment.username }}</strong>
+
+  <p>{{ comment.content }}</p>
+
+  <small>
+    {{ comment.created_at | date:'short' }}
+  </small>
+
+</mat-card>

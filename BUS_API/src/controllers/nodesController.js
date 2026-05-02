@@ -75,3 +75,18 @@ exports.reassignSubnode = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+exports.getAvailableDestinations = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    const nodes =
+      await nodesService.getAvailableDestinations(id);
+
+    res.json(nodes);
+
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
