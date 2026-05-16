@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict X8S8dg76f1ukKVops8NTAelH5BAIfWFUkYIqJjF1VWlZyhmrgdxH40VvmjjcEGa
+\restrict vd8D25EY9YyeeGJ4VdLdD6kSlqbt66tXUDnTlNZHA8tPOLc4V9ggiqNHdC5ylTI
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.2
 
--- Started on 2026-05-01 13:20:37
+-- Started on 2026-05-16 11:56:21
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -319,7 +319,8 @@ CREATE TABLE public.users (
     username character varying(50) NOT NULL,
     email character varying(100) NOT NULL,
     password_hash character varying(255) NOT NULL,
-    role_id integer NOT NULL
+    role_id integer NOT NULL,
+    active boolean DEFAULT true
 );
 
 
@@ -341,18 +342,20 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- TOC entry 5014 (class 0 OID 16390)
+-- TOC entry 5015 (class 0 OID 16390)
 -- Dependencies: 219
 -- Data for Name: bans; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.bans (id, dni_encrypted, reason, status, created_at, expires_at) FROM stdin;
-2	1af00d5c1d15aaf7e648709eb5490067:8c31868790bf8ad941972e5c646855ee	Mal comportamiento	activo	2026-04-19 21:01:06.585944	2026-10-28 00:00:00
+5	2069575fbd7375df2e8bd42dbc155972:8dfa4e977c0ee259a803e6895c2e45c1	Razon 1	activo	2026-05-14 18:49:28.301548	2030-01-14 00:00:00
+6	ac0fb04686630d10c441a508036b1d4e:8e8ce81319e893ba0f16a878d763c986	Razon 2	activo	2026-05-14 18:49:50.371608	2029-06-14 00:00:00
+10	ace29244bc17becf192d3ef7ffebea3f:4929dae85b6c8a2fcd0ddf26b4a718b0		permanente	2026-05-14 19:01:02.865221	3000-01-01 00:00:00
 \.
 
 
 --
--- TOC entry 5016 (class 0 OID 16401)
+-- TOC entry 5017 (class 0 OID 16401)
 -- Dependencies: 221
 -- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -361,14 +364,13 @@ COPY public.comments (id, user_id, route_id, content, created_at) FROM stdin;
 1	2	1	Muy c├│modo y puntual	2026-04-16 11:50:34.048194
 2	3	1	Buen servicio, repetir├¡a	2026-04-16 11:50:34.048194
 3	4	1	Correcto, pero mejorable	2026-04-16 11:50:34.048194
-4	2	1	prueba	2026-04-19 15:19:11.236723
 5	2	1	prueba 2	2026-04-19 15:28:33.119579
-6	2	1	prueba 3	2026-04-19 15:29:43.918811
+7	2	1	Muy mejorable	2026-05-01 20:25:27.817391
 \.
 
 
 --
--- TOC entry 5018 (class 0 OID 16413)
+-- TOC entry 5019 (class 0 OID 16413)
 -- Dependencies: 223
 -- Data for Name: node_distances; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -391,7 +393,7 @@ COPY public.node_distances (id, node_a, node_b, distance_km) FROM stdin;
 
 
 --
--- TOC entry 5020 (class 0 OID 16421)
+-- TOC entry 5021 (class 0 OID 16421)
 -- Dependencies: 225
 -- Data for Name: nodes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -414,13 +416,13 @@ COPY public.nodes (id, name, latitude, longitude, node_type, parent_node_id) FRO
 15	Ciudad Real	38.986100	-3.927300	main	\N
 16	Cordoba	37.888200	-4.779400	main	\N
 17	Albacete	38.994300	-1.858500	main	\N
-24	Estacion Autobuses Terrassa	41.562962	2.010049	sub	5
 25	Ayuntamiento Toledo	39.855891	-4.024265	sub	14
+24	Estacion Autobuses Terrassa	41.562962	2.010049	sub	5
 \.
 
 
 --
--- TOC entry 5022 (class 0 OID 16431)
+-- TOC entry 5023 (class 0 OID 16431)
 -- Dependencies: 227
 -- Data for Name: ratings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -428,12 +430,12 @@ COPY public.nodes (id, name, latitude, longitude, node_type, parent_node_id) FRO
 COPY public.ratings (id, user_id, route_id, rating) FROM stdin;
 2	3	1	4
 3	4	1	3
-1	2	1	4
+1	2	1	2
 \.
 
 
 --
--- TOC entry 5024 (class 0 OID 16440)
+-- TOC entry 5025 (class 0 OID 16440)
 -- Dependencies: 229
 -- Data for Name: reservations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -441,11 +443,16 @@ COPY public.ratings (id, user_id, route_id, rating) FROM stdin;
 COPY public.reservations (id, user_id, route_id, dni_encrypted, total_price, status, departure_date, origin_node_id, destination_node_id) FROM stdin;
 5	2	1	0cf7b4865f95254fdf4b00fed46f815d:8b182bdcd66d9f1eb526e702a31faf6c	11.61	pendiente	2026-04-23 02:00:00	3	4
 4	2	1	abb3a06dc0f29e62e594001764920fd8:b9af1a92e0cff42c274ab9ca9d170762	46.84	completado	2026-04-19 02:00:00	5	3
+6	5	4	9042c064681ebf30bcfa3f8d76d16e3a:f0900382454c65bdd8ddbf359e26cdad	52.92	cancelado	2026-05-02 02:00:00	5	14
+7	2	2	678ee50ca53a21f9ead66874d15d53b8:c65ef93e9451fea97f9cdde9118ffffd	21.24	pendiente	2026-05-14 02:00:00	9	8
+8	2	2	e2a9732582f61fbfc99e725918d2bbed:d9d52307e647d3f91cb6633c84a11104	30.31	pendiente	2026-05-14 02:00:00	5	6
+9	2	1	6ee269f2a9f85afe65870077be465186:44289666da6a1767959f2067bddae2e0	31.71	pendiente	2026-05-14 02:00:00	5	4
+10	2	2	e48e6309e63574e85d634de212d096f4:45f971ae8699c1ce834b971b4a9fedfe	30.31	pendiente	2026-05-15 02:00:00	5	6
 \.
 
 
 --
--- TOC entry 5026 (class 0 OID 16453)
+-- TOC entry 5027 (class 0 OID 16453)
 -- Dependencies: 231
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -459,7 +466,7 @@ COPY public.roles (id, name) FROM stdin;
 
 
 --
--- TOC entry 5028 (class 0 OID 16459)
+-- TOC entry 5029 (class 0 OID 16459)
 -- Dependencies: 233
 -- Data for Name: route_nodes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -489,59 +496,58 @@ COPY public.route_nodes (id, route_id, node_id, node_order) FROM stdin;
 
 
 --
--- TOC entry 5030 (class 0 OID 16467)
+-- TOC entry 5031 (class 0 OID 16467)
 -- Dependencies: 235
 -- Data for Name: routes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.routes (id, name, status, base_price, capacity) FROM stdin;
-1	Norte	activo	1.00	50
 2	Sur	activo	1.00	50
 3	Oeste	activo	1.00	50
-4	Central EO	activo	1.00	50
 5	OE	activo	1.00	50
-6	Norte B	activo	1.00	50
-7	Sur B	activo	1.00	50
-8	Oeste B	activo	1.00	50
-9	Central EO B	activo	1.00	50
-10	OE B	activo	1.00	50
+11	Viajes locales	activo	1.00	9999
+1	Norte	activo	0.90	50
+4	Central EO	activo	1.00	49
 \.
 
 
 --
--- TOC entry 5032 (class 0 OID 16478)
+-- TOC entry 5033 (class 0 OID 16478)
 -- Dependencies: 237
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, username, email, password_hash, role_id) FROM stdin;
-1	admin	admin@admin.com	$2b$10$CCvjI67OuHOvOlEOQ9tHbeJvmMqYJeh2002.dNiD0yfw6SB.I1q/K	1
-2	user1	user1@user1.com	$2b$10$pDcHX4JIjNys2sDRZ681AumsQxggToYzDv4w/kAFaqGgX.RXLCYVO	2
-3	user2	user2@user2.com	$2b$10$fdYi4jghbN/3R4WtawoeYuRtmMPYdEA8Uc5grW9PizeYpOlKYck9e	2
-4	user3	user3@user3.com	$2b$10$GM53e7ndGQZhFQ/p4fk8zuMe.Li9qZ5LUOo3N1sfDMCj1v8JI3Xyi	2
+COPY public.users (id, username, email, password_hash, role_id, active) FROM stdin;
+1	admin	admin@admin.com	$2b$10$CCvjI67OuHOvOlEOQ9tHbeJvmMqYJeh2002.dNiD0yfw6SB.I1q/K	1	t
+2	user1	user1@user1.com	$2b$10$pDcHX4JIjNys2sDRZ681AumsQxggToYzDv4w/kAFaqGgX.RXLCYVO	2	t
+3	user2	user2@user2.com	$2b$10$fdYi4jghbN/3R4WtawoeYuRtmMPYdEA8Uc5grW9PizeYpOlKYck9e	2	t
+5	user5	user5@user5.com	$2b$10$LgUWfBi7bXxhs1i3RIFYDu5bEODSnLOmKtS4aG8wnOZC5PmTa0Cym	2	f
+6	modera	modera@modera.com	$2b$10$znJuVrU/ZjbSaqbWKBaMwO3ThKRX1m0Hin.yiUxQG6nHhBWzx97Ku	3	t
+7	node	node@builder.com	$2b$10$w1Y5.aljOCGbidqr8N2Z.ux29wfQkY4EJQj.aiCr.Y8fhlxE/9HX.	4	t
+4	user3	user3@user3.com	$2b$10$GM53e7ndGQZhFQ/p4fk8zuMe.Li9qZ5LUOo3N1sfDMCj1v8JI3Xyi	2	t
 \.
 
 
 --
--- TOC entry 5039 (class 0 OID 0)
+-- TOC entry 5040 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: bans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bans_id_seq', 3, true);
-
-
---
--- TOC entry 5040 (class 0 OID 0)
--- Dependencies: 222
--- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.comments_id_seq', 6, true);
+SELECT pg_catalog.setval('public.bans_id_seq', 10, true);
 
 
 --
 -- TOC entry 5041 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.comments_id_seq', 7, true);
+
+
+--
+-- TOC entry 5042 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: node_distances_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -550,34 +556,34 @@ SELECT pg_catalog.setval('public.node_distances_id_seq', 13, true);
 
 
 --
--- TOC entry 5042 (class 0 OID 0)
+-- TOC entry 5043 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: nodes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.nodes_id_seq', 25, true);
-
-
---
--- TOC entry 5043 (class 0 OID 0)
--- Dependencies: 228
--- Name: ratings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.ratings_id_seq', 6, true);
+SELECT pg_catalog.setval('public.nodes_id_seq', 26, true);
 
 
 --
 -- TOC entry 5044 (class 0 OID 0)
--- Dependencies: 230
--- Name: reservations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 228
+-- Name: ratings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reservations_id_seq', 5, true);
+SELECT pg_catalog.setval('public.ratings_id_seq', 7, true);
 
 
 --
 -- TOC entry 5045 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: reservations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reservations_id_seq', 10, true);
+
+
+--
+-- TOC entry 5046 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -586,34 +592,34 @@ SELECT pg_catalog.setval('public.roles_id_seq', 4, true);
 
 
 --
--- TOC entry 5046 (class 0 OID 0)
+-- TOC entry 5047 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: route_nodes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.route_nodes_id_seq', 20, true);
-
-
---
--- TOC entry 5047 (class 0 OID 0)
--- Dependencies: 236
--- Name: routes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.routes_id_seq', 10, true);
+SELECT pg_catalog.setval('public.route_nodes_id_seq', 22, true);
 
 
 --
 -- TOC entry 5048 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: routes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.routes_id_seq', 11, true);
+
+
+--
+-- TOC entry 5049 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+SELECT pg_catalog.setval('public.users_id_seq', 8, true);
 
 
 --
--- TOC entry 4810 (class 2606 OID 16488)
+-- TOC entry 4811 (class 2606 OID 16488)
 -- Name: bans bans_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -622,7 +628,7 @@ ALTER TABLE ONLY public.bans
 
 
 --
--- TOC entry 4812 (class 2606 OID 16490)
+-- TOC entry 4813 (class 2606 OID 16490)
 -- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -631,7 +637,7 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- TOC entry 4817 (class 2606 OID 16492)
+-- TOC entry 4818 (class 2606 OID 16492)
 -- Name: node_distances node_distances_node_a_node_b_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -640,7 +646,7 @@ ALTER TABLE ONLY public.node_distances
 
 
 --
--- TOC entry 4819 (class 2606 OID 16494)
+-- TOC entry 4820 (class 2606 OID 16494)
 -- Name: node_distances node_distances_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -649,7 +655,7 @@ ALTER TABLE ONLY public.node_distances
 
 
 --
--- TOC entry 4821 (class 2606 OID 16496)
+-- TOC entry 4822 (class 2606 OID 16496)
 -- Name: nodes nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -658,7 +664,7 @@ ALTER TABLE ONLY public.nodes
 
 
 --
--- TOC entry 4826 (class 2606 OID 16498)
+-- TOC entry 4827 (class 2606 OID 16498)
 -- Name: ratings ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -667,7 +673,7 @@ ALTER TABLE ONLY public.ratings
 
 
 --
--- TOC entry 4828 (class 2606 OID 16500)
+-- TOC entry 4829 (class 2606 OID 16500)
 -- Name: ratings ratings_user_id_route_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -676,7 +682,7 @@ ALTER TABLE ONLY public.ratings
 
 
 --
--- TOC entry 4834 (class 2606 OID 16502)
+-- TOC entry 4835 (class 2606 OID 16502)
 -- Name: reservations reservations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -685,7 +691,7 @@ ALTER TABLE ONLY public.reservations
 
 
 --
--- TOC entry 4836 (class 2606 OID 16504)
+-- TOC entry 4837 (class 2606 OID 16504)
 -- Name: roles roles_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -694,7 +700,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 4838 (class 2606 OID 16506)
+-- TOC entry 4839 (class 2606 OID 16506)
 -- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -703,7 +709,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 4842 (class 2606 OID 16508)
+-- TOC entry 4843 (class 2606 OID 16508)
 -- Name: route_nodes route_nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -712,7 +718,7 @@ ALTER TABLE ONLY public.route_nodes
 
 
 --
--- TOC entry 4844 (class 2606 OID 16510)
+-- TOC entry 4845 (class 2606 OID 16510)
 -- Name: route_nodes route_nodes_route_id_node_order_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -721,7 +727,7 @@ ALTER TABLE ONLY public.route_nodes
 
 
 --
--- TOC entry 4846 (class 2606 OID 16512)
+-- TOC entry 4847 (class 2606 OID 16512)
 -- Name: routes routes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -730,7 +736,7 @@ ALTER TABLE ONLY public.routes
 
 
 --
--- TOC entry 4823 (class 2606 OID 16514)
+-- TOC entry 4824 (class 2606 OID 16514)
 -- Name: nodes unique_node_name; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -739,7 +745,7 @@ ALTER TABLE ONLY public.nodes
 
 
 --
--- TOC entry 4830 (class 2606 OID 16516)
+-- TOC entry 4831 (class 2606 OID 16516)
 -- Name: ratings unique_user_route; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -748,7 +754,7 @@ ALTER TABLE ONLY public.ratings
 
 
 --
--- TOC entry 4848 (class 2606 OID 16518)
+-- TOC entry 4849 (class 2606 OID 16518)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -757,7 +763,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4850 (class 2606 OID 16520)
+-- TOC entry 4851 (class 2606 OID 16520)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -766,7 +772,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4852 (class 2606 OID 16522)
+-- TOC entry 4853 (class 2606 OID 16522)
 -- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -775,7 +781,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4813 (class 1259 OID 16523)
+-- TOC entry 4814 (class 1259 OID 16523)
 -- Name: idx_comments_route; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -783,7 +789,7 @@ CREATE INDEX idx_comments_route ON public.comments USING btree (route_id);
 
 
 --
--- TOC entry 4814 (class 1259 OID 16524)
+-- TOC entry 4815 (class 1259 OID 16524)
 -- Name: idx_node_distances_a; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -791,7 +797,7 @@ CREATE INDEX idx_node_distances_a ON public.node_distances USING btree (node_a);
 
 
 --
--- TOC entry 4815 (class 1259 OID 16525)
+-- TOC entry 4816 (class 1259 OID 16525)
 -- Name: idx_node_distances_b; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -799,7 +805,7 @@ CREATE INDEX idx_node_distances_b ON public.node_distances USING btree (node_b);
 
 
 --
--- TOC entry 4824 (class 1259 OID 16526)
+-- TOC entry 4825 (class 1259 OID 16526)
 -- Name: idx_ratings_route; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -807,7 +813,7 @@ CREATE INDEX idx_ratings_route ON public.ratings USING btree (route_id);
 
 
 --
--- TOC entry 4831 (class 1259 OID 16527)
+-- TOC entry 4832 (class 1259 OID 16527)
 -- Name: idx_reservations_route; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -815,7 +821,7 @@ CREATE INDEX idx_reservations_route ON public.reservations USING btree (route_id
 
 
 --
--- TOC entry 4832 (class 1259 OID 16528)
+-- TOC entry 4833 (class 1259 OID 16528)
 -- Name: idx_reservations_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -823,7 +829,7 @@ CREATE INDEX idx_reservations_user ON public.reservations USING btree (user_id);
 
 
 --
--- TOC entry 4839 (class 1259 OID 16529)
+-- TOC entry 4840 (class 1259 OID 16529)
 -- Name: idx_route_nodes_node; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -831,7 +837,7 @@ CREATE INDEX idx_route_nodes_node ON public.route_nodes USING btree (node_id);
 
 
 --
--- TOC entry 4840 (class 1259 OID 16530)
+-- TOC entry 4841 (class 1259 OID 16530)
 -- Name: idx_route_nodes_route; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -839,7 +845,7 @@ CREATE INDEX idx_route_nodes_route ON public.route_nodes USING btree (route_id);
 
 
 --
--- TOC entry 4853 (class 2606 OID 16531)
+-- TOC entry 4854 (class 2606 OID 16531)
 -- Name: comments comments_route_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -848,7 +854,7 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- TOC entry 4854 (class 2606 OID 16536)
+-- TOC entry 4855 (class 2606 OID 16536)
 -- Name: comments comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -857,7 +863,7 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- TOC entry 4860 (class 2606 OID 16541)
+-- TOC entry 4861 (class 2606 OID 16541)
 -- Name: reservations fk_destination_node; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -866,7 +872,7 @@ ALTER TABLE ONLY public.reservations
 
 
 --
--- TOC entry 4861 (class 2606 OID 16546)
+-- TOC entry 4862 (class 2606 OID 16546)
 -- Name: reservations fk_origin_node; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -875,7 +881,7 @@ ALTER TABLE ONLY public.reservations
 
 
 --
--- TOC entry 4855 (class 2606 OID 16551)
+-- TOC entry 4856 (class 2606 OID 16551)
 -- Name: node_distances node_distances_node_a_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -884,7 +890,7 @@ ALTER TABLE ONLY public.node_distances
 
 
 --
--- TOC entry 4856 (class 2606 OID 16556)
+-- TOC entry 4857 (class 2606 OID 16556)
 -- Name: node_distances node_distances_node_b_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -893,7 +899,7 @@ ALTER TABLE ONLY public.node_distances
 
 
 --
--- TOC entry 4857 (class 2606 OID 16561)
+-- TOC entry 4858 (class 2606 OID 16561)
 -- Name: nodes nodes_parent_node_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -902,7 +908,7 @@ ALTER TABLE ONLY public.nodes
 
 
 --
--- TOC entry 4858 (class 2606 OID 16566)
+-- TOC entry 4859 (class 2606 OID 16566)
 -- Name: ratings ratings_route_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -911,7 +917,7 @@ ALTER TABLE ONLY public.ratings
 
 
 --
--- TOC entry 4859 (class 2606 OID 16571)
+-- TOC entry 4860 (class 2606 OID 16571)
 -- Name: ratings ratings_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -920,7 +926,7 @@ ALTER TABLE ONLY public.ratings
 
 
 --
--- TOC entry 4862 (class 2606 OID 16576)
+-- TOC entry 4863 (class 2606 OID 16576)
 -- Name: reservations reservations_route_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -929,7 +935,7 @@ ALTER TABLE ONLY public.reservations
 
 
 --
--- TOC entry 4863 (class 2606 OID 16581)
+-- TOC entry 4864 (class 2606 OID 16581)
 -- Name: reservations reservations_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -938,7 +944,7 @@ ALTER TABLE ONLY public.reservations
 
 
 --
--- TOC entry 4864 (class 2606 OID 16586)
+-- TOC entry 4865 (class 2606 OID 16586)
 -- Name: route_nodes route_nodes_node_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -947,7 +953,7 @@ ALTER TABLE ONLY public.route_nodes
 
 
 --
--- TOC entry 4865 (class 2606 OID 16591)
+-- TOC entry 4866 (class 2606 OID 16591)
 -- Name: route_nodes route_nodes_route_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -956,7 +962,7 @@ ALTER TABLE ONLY public.route_nodes
 
 
 --
--- TOC entry 4866 (class 2606 OID 16596)
+-- TOC entry 4867 (class 2606 OID 16596)
 -- Name: users users_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -964,11 +970,11 @@ ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.roles(id);
 
 
--- Completed on 2026-05-01 13:20:37
+-- Completed on 2026-05-16 11:56:21
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict X8S8dg76f1ukKVops8NTAelH5BAIfWFUkYIqJjF1VWlZyhmrgdxH40VvmjjcEGa
+\unrestrict vd8D25EY9YyeeGJ4VdLdD6kSlqbt66tXUDnTlNZHA8tPOLc4V9ggiqNHdC5ylTI
 
