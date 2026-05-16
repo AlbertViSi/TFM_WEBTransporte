@@ -17,13 +17,9 @@ const reservationsRoutes = require('./routes/reservations');
 const loginRoutes = require('./routes/login');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: 'http://localhost:4200',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
 app.use(express.json());
 
 // Usa Rutas
@@ -66,5 +62,5 @@ app.get('/test-db', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor corriendo en puerto ${port}`);
 });
