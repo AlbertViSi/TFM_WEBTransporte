@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { API_ENDPOINTS } from '../endpoints/api-endpoints';
+import { Api } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:3000';
+  private api = inject(Api);;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   getUsers() {
     const token = localStorage.getItem('token');
@@ -18,8 +19,8 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get(
-      this.apiUrl + API_ENDPOINTS.users.getAll,
+    return this.api.get(
+      API_ENDPOINTS.users.getAll,
       { headers }
     );
   }
@@ -32,8 +33,8 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.put(
-      this.apiUrl + API_ENDPOINTS.users.deactivate(id),
+    return this.api.put(
+      API_ENDPOINTS.users.deactivate(id),
       {},
       { headers }
     );
@@ -46,8 +47,8 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.put(
-      this.apiUrl + API_ENDPOINTS.users.reactivate(id),
+    return this.api.put(
+      API_ENDPOINTS.users.reactivate(id),
       {},
       { headers }
     );
@@ -60,8 +61,8 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.post(
-      this.apiUrl + API_ENDPOINTS.users.create,
+    return this.api.post(
+      API_ENDPOINTS.users.create,
       data,
       { headers }
     );

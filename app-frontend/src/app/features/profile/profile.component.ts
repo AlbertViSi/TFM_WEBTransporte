@@ -61,7 +61,5 @@ export class ProfileComponent implements OnInit {
         alert('Error al cambiar contraseña');
       }
     });
-
   }
-
 }

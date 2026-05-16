@@ -1,28 +1,29 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../endpoints/api-endpoints';
+import { Api } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoutesService {
 
-  private apiUrl = 'http://localhost:3000';
+  private api = inject(Api);;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   searchRoutes(origin: number, dest: number, date: string): Observable<any[]> {
 
-    return this.http.get<any[]>(
-      this.apiUrl + API_ENDPOINTS.routes.search(origin, dest, date)
+    return this.api.get<any[]>(
+      API_ENDPOINTS.routes.search(origin, dest, date)
     );
 
   }
 
   getRouteDetail(routeId: number | string) {
-    return this.http.get(
-      `${this.apiUrl}${API_ENDPOINTS.routes.DETAIL(routeId)}`
+    return this.api.get(
+      API_ENDPOINTS.routes.DETAIL(routeId)
     );
   }
 
@@ -33,23 +34,23 @@ export class RoutesService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.post(
-      `${this.apiUrl}${API_ENDPOINTS.reservations.create}`,
+    return this.api.post(
+      API_ENDPOINTS.reservations.create,
       data,
       { headers }
     );
   }
 
   getAllRoutes() {
-    return this.http.get<any[]>(
-      this.apiUrl + API_ENDPOINTS.routes.getAll
+    return this.api.get<any[]>(
+      API_ENDPOINTS.routes.getAll
     );
   }
 
   getCommentsByRoute(routeId: number) {
 
-    return this.http.get(
-      `${this.apiUrl}${API_ENDPOINTS.comments.getByRoute(routeId)}`
+    return this.api.get(
+      API_ENDPOINTS.comments.getByRoute(routeId)
     );
 
   }
@@ -62,23 +63,23 @@ export class RoutesService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.delete(
-      `${this.apiUrl}${API_ENDPOINTS.comments.delete(commentId)}`,
+    return this.api.delete(
+      API_ENDPOINTS.comments.delete(commentId),
       { headers }
     );
 
   }
 
   updateCapacity(routeId: number, capacity: number) {
-    return this.http.put<any[]>(
-      `${this.apiUrl}${API_ENDPOINTS.routes.updateCapacity(routeId)}`,
+    return this.api.put<any[]>(
+      API_ENDPOINTS.routes.updateCapacity(routeId),
       { capacity }
     );
   }
 
   updateBasePrice(routeId: number, base_price: number) {
-    return this.http.put<any[]>(
-      `${this.apiUrl}${API_ENDPOINTS.routes.updateBasePrice(routeId)}`,
+    return this.api.put<any[]>(
+      API_ENDPOINTS.routes.updateBasePrice(routeId),
       { base_price }
     );
   }

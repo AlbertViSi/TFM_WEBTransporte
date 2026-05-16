@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { environmentprod } from '../../enviroments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,21 +9,35 @@ export class Api {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environmentprod.apiUrl;
 
-  get(url: string) {
-    return this.http.get(`${this.apiUrl}${url}`);
+  get<T>(url: string, options = {}) {
+    return this.http.get<T>(
+      `${this.apiUrl}${url}`,
+      options
+    );
   }
 
-  post(url: string, data: any) {
-    return this.http.post(`${this.apiUrl}${url}`, data);
+  post<T>(url: string, data: any, options = {}) {
+    return this.http.post<T>(
+      `${this.apiUrl}${url}`,
+      data,
+      options
+    );
   }
 
-  put(url: string, data: any) {
-    return this.http.put(`${this.apiUrl}${url}`, data);
+  put<T>(url: string, data: any, options = {}) {
+    return this.http.put<T>(
+      `${this.apiUrl}${url}`,
+      data,
+      options
+    );
   }
 
-  delete(url: string) {
-    return this.http.delete(`${this.apiUrl}${url}`);
+  delete<T>(url: string, options = {}) {
+    return this.http.delete<T>(
+      `${this.apiUrl}${url}`,
+      options
+    );
   }
 }

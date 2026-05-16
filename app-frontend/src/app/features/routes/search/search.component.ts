@@ -112,5 +112,4 @@ export class Search implements OnInit{
       destination: node.name
     });
   }
-
 }

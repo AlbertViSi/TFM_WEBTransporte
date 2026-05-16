@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { API_ENDPOINTS } from '../endpoints/api-endpoints';
+import { Api } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminBansService {
 
-  private apiUrl = 'http://localhost:3000';
+  private api = inject(Api);
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   getBans() {
     const token = localStorage.getItem('token');
@@ -18,8 +19,8 @@ export class AdminBansService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get(
-      this.apiUrl + API_ENDPOINTS.bans.getAll,
+    return this.api.get(
+      API_ENDPOINTS.bans.getAll,
       { headers }
     );
   }
@@ -32,8 +33,8 @@ export class AdminBansService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.post(
-      this.apiUrl + API_ENDPOINTS.bans.create,
+    return this.api.post(
+      API_ENDPOINTS.bans.create,
       data,
       { headers }
     );
@@ -47,8 +48,8 @@ export class AdminBansService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.delete(
-      this.apiUrl + API_ENDPOINTS.bans.delete(id),
+    return this.api.delete(
+      API_ENDPOINTS.bans.delete(id),
       { headers }
     );
   }

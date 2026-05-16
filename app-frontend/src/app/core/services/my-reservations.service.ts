@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../endpoints/api-endpoints';
 import { MyReservation } from '../../shared/models/myreservation.model';
+import { Api } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MyReservationsService {
 
-  private apiUrl = 'http://localhost:3000';
+  private api = inject(Api);
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   getUserReservations(): Observable<MyReservation[]> {
 
@@ -21,8 +22,8 @@ export class MyReservationsService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get<MyReservation[]>(
-      this.apiUrl + API_ENDPOINTS.reservations.user,
+    return this.api.get<MyReservation[]>(
+      API_ENDPOINTS.reservations.user,
       { headers }
     );
   }
@@ -35,8 +36,8 @@ export class MyReservationsService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.delete(
-      this.apiUrl + API_ENDPOINTS.reservations.delete(id),
+    return this.api.delete(
+      API_ENDPOINTS.reservations.delete(id),
       { headers }
     );
   }

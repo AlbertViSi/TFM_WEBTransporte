@@ -1,15 +1,16 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
+import { HttpHeaders } from "@angular/common/http";
 import { API_ENDPOINTS } from "../endpoints/api-endpoints";
+import { Api } from "./api";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RatingService {
 
-  private apiUrl = 'http://localhost:3000';
+  private api = inject(Api);;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   createRating(route_id: number, rating: number) {
 
@@ -19,8 +20,8 @@ export class RatingService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.post(
-      this.apiUrl + API_ENDPOINTS.ratings.create,
+    return this.api.post(
+      API_ENDPOINTS.ratings.create,
       { route_id, rating },
       { headers }
     );
@@ -34,8 +35,8 @@ export class RatingService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.post(
-      this.apiUrl + API_ENDPOINTS.comments.create,
+    return this.api.post(
+      API_ENDPOINTS.comments.create,
       { route_id, content },
       { headers }
     );
