@@ -1,0 +1,79 @@
+<div class="content-wrapper">
+
+  <button (click)="goBack()">
+    ← Volver
+  </button>
+
+  <h2>Ruta {{ routeName }}</h2>
+
+  <app-logistics-edit
+    [routeId]="routeId"
+    [currentCapacity]="routedata?.capacity"
+    [currentPrice]="routedata?.base_price"
+    (updated)="loadRouteData()"
+  ></app-logistics-edit>
+
+  <app-subnode-form
+    [nodes]="mainNodes"
+    (created)="load()">
+  </app-subnode-form>
+
+  <div
+    *ngFor="let node of nodes"
+    class="node-block"
+  >
+
+    <div class="node-header">
+
+      <h3>
+        {{ node.name }}
+        ({{ getSubnodes(node.id).length }} subnodos)
+      </h3>
+
+      <button (click)="toggle(node.id)">
+        {{ isExpanded(node.id) ? 'Ocultar' : 'Mostrar' }}
+      </button>
+
+    </div>
+
+    <div
+      *ngIf="isExpanded(node.id)"
+      class="subnodes"
+    >
+
+      <div *ngIf="getSubnodes(node.id).length > 0">
+
+        <div
+          *ngFor="let sub of getSubnodes(node.id)"
+          class="subnode-row"
+        >
+
+          <span class="subnode-name">
+            - {{ sub.name }}
+          </span>
+
+          <div class="actions">
+
+            <app-delete-subnode
+              [subnodeId]="sub.id"
+              (deleted)="load()">
+            </app-delete-subnode>
+
+            <app-reassign-subnode
+              [subnodeId]="sub.id"
+              [mainNodes]="mainNodes"
+              (reassigned)="load()">
+            </app-reassign-subnode>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="getSubnodes(node.id).length === 0">
+        <small>No hay subnodos</small>
+      </div>
+    </div>
+  </div>
+</div>

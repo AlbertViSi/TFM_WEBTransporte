@@ -1,38 +1,40 @@
-<h2>Crear Ban</h2>
+<div class="content-wrapper">
 
-<form (ngSubmit)="submit()">
+  <h2>Crear Ban</h2>
 
-  <div>
-    <label>DNI</label>
-    <input 
-      type="text"
-      [(ngModel)]="dni"
-      name="dni"
-      required
-    />
-  </div>
+  <form (ngSubmit)="submit()" #form="ngForm">
 
-  <div>
-    <label>Razón</label>
-    <input 
-      type="text"
-      [(ngModel)]="reason"
-      name="reason"
-      required
-    />
-  </div>
+    <div class="field">
+      <label>DNI</label>
+      <input 
+        type="text"
+        [(ngModel)]="dni"
+        name="dni"
+        required
+      />
+    </div>
 
-  <div>
-    <label>Fecha Expiración</label>
-    <input 
-      type="date"
-      [(ngModel)]="expires_at"
-      name="expires_at"
-    />
-  </div>
+    <div class="field">
+      <label>Razón</label>
+      <input 
+        type="text"
+        [(ngModel)]="reason"
+        name="reason"
+        required
+      />
+    </div>
 
-  <button type="submit">
-    Crear Ban
-  </button>
+    <div class="field">
+      <label>Fecha Expiración</label>
+      <input 
+        type="date"
+        [(ngModel)]="expires_at"
+        name="expires_at"
+      />
+    </div>
 
-</form>
+    <button type="submit" [disabled]="form.invalid">
+      Crear Ban
+    </button>
+  </form>
+</div>

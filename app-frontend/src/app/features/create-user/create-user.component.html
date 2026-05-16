@@ -1,0 +1,60 @@
+<div class="content-wrapper">
+
+  <h2>Crear nuevo usuario</h2>
+
+  <form (ngSubmit)="createUser()">
+
+    <div class="field">
+      <label>Nombre de usuario</label>
+      <input
+        type="text"
+        [(ngModel)]="username"
+        name="username"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label>Contraseña</label>
+      <input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label>Rol</label>
+      <select
+        [(ngModel)]="role"
+        name="role"
+        required
+      >
+        <option value="">Seleccionar rol</option>
+        <option value="user">Usuario</option>
+        <option value="moderator">Moderador</option>
+        <option value="node_builder">Node Builder</option>
+      </select>
+    </div>
+
+    <button 
+      type="submit"
+      [disabled]="!username || !email || !password || !role"
+    >
+      Crear usuario
+    </button>
+
+  </form>
+
+</div>

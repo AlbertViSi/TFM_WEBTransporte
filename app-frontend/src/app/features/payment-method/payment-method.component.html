@@ -1,42 +1,68 @@
-<div *ngIf="paymentMethod === 'card'">
+<div *ngIf="paymentMethod === 'card'" class="content-wrapper">
 
   <h2>Pago con tarjeta</h2>
 
-  <form [formGroup]="cardForm" (ngSubmit)="payCard()">
+  <form [formGroup]="cardForm" (ngSubmit)="payCard()" class="payment-form">
 
-    <label>Número tarjeta</label>
-    <input type="text" formControlName="cardNumber">
+    <div class="field">
+      <label>Número tarjeta</label>
+      <input type="text" 
+        formControlName="cardNumber"
+        (input)="formatCardNumber()"
+      >
+    </div>
 
-    <label>Titular</label>
-    <input type="text" formControlName="holder">
+    <div class="field">
+      <label>Titular</label>
+      <input type="text" formControlName="holder">
+    </div>
 
-    <label>Caducidad</label>
-    <input type="month" formControlName="expiry">
+    <div class="field">
+      <label>Caducidad</label>
+      <input 
+        type="text" 
+        formControlName="expiry"
+        placeholder="MM/YY"
+        maxlength="5"
+        (input)="formatExpiry()"
+      />
+    </div>
 
-    <label>CVV</label>
-    <input type="text" formControlName="cvv">
+    <div *ngIf="cardForm.get('expiry')?.touched && cardForm.get('expiry')?.invalid">
+      <small *ngIf="cardForm.get('expiry')?.errors?.['invalidFormat']">
+        Formato inválido (MM/YY)
+      </small>
+
+      <small *ngIf="cardForm.get('expiry')?.errors?.['expired']">
+        La tarjeta está caducada
+      </small>
+    </div>
+
+    <div class="field">
+      <label>CVV</label>
+      <input type="text" formControlName="cvv">
+    </div>
 
     <button type="submit">
       Pagar
     </button>
-
   </form>
-
 </div>
 
-<div *ngIf="paymentMethod === 'bizum'">
+
+<div *ngIf="paymentMethod === 'bizum'" class="content-wrapper">
 
   <h2>Pago con Bizum</h2>
 
-  <form [formGroup]="bizumForm" (ngSubmit)="payBizum()">
+  <form [formGroup]="bizumForm" (ngSubmit)="payBizum()" class="payment-form">
 
-    <label>Teléfono</label>
-    <input type="text" formControlName="phone">
+    <div class="field">
+      <label>Teléfono</label>
+      <input type="text" formControlName="phone">
+    </div>
 
     <button type="submit">
       Pagar
     </button>
-
   </form>
-
 </div>

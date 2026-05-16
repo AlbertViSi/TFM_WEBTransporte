@@ -1,0 +1,48 @@
+<button (click)="toggle()">
+  {{ isOpen ? 'Ocultar formulario' : 'Añadir subnodo' }}
+</button>
+
+<div *ngIf="isOpen" class="subnode-form">
+
+  <h3>Crear subnodo</h3>
+
+  <div class="field">
+    <label>Nodo padre</label>
+
+    <select [(ngModel)]="parent_node_id">
+
+      <option [ngValue]="null">
+        Selecciona nodo padre
+      </option>
+
+      <option 
+        *ngFor="let node of nodes" 
+        [ngValue]="node.id">
+        {{ node.name }}
+      </option>
+
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Nombre</label>
+
+    <input
+      type="text"
+      [(ngModel)]="name"
+    />
+  </div>
+
+  <div class="field">
+    <label>Ubicación</label>
+
+    <input
+      type="text"
+      [(ngModel)]="locations"
+    />
+  </div>
+
+  <button (click)="create()">
+    Crear
+  </button>
+</div>

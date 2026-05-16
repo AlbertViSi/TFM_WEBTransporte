@@ -1,0 +1,25 @@
+<button (click)="toggle()">
+  Reasignar
+</button>
+
+<div *ngIf="showForm" class="inline-form">
+
+  <select [(ngModel)]="newParentId">
+
+    <option [ngValue]="null">
+      -- Selecciona destino --
+    </option>
+
+    <option 
+      *ngFor="let n of mainNodes" 
+      [value]="n.id">
+      {{ n.name }}
+    </option>
+
+  </select>
+
+  <button (click)="reassign()">
+    Guardar
+  </button>
+
+</div>

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { ReservationStateService } from '../../core/services/reservation-state.service';
 import { Router } from '@angular/router';
 
@@ -30,15 +30,27 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   cardForm = this.fb.group({
-    cardNumber: ['', [Validators.required, Validators.minLength(16)]],
+    cardNumber: ['', [Validators.required,(control: AbstractControl) => 
+      {const raw = control.value?.replace(/\s/g, '') || '';return raw.length === 16 ? null : { invalidLength: true };}
+    ]],
     holder: ['', Validators.required],
-    expiry: ['', Validators.required, this.expiryValidator.bind(this)],
-    cvv: ['', [Validators.required, Validators.minLength(3)]]
+    expiry: ['', [Validators.required, this.expiryValidator.bind(this)]],
+    cvv: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(4)]]
   });
 
   bizumForm = this.fb.group({
     phone: ['', [Validators.required, Validators.minLength(9)]]
   });
+
+  formatCardNumber() {
+    let value = this.cardForm.get('cardNumber')?.value || '';
+
+    value = value.replace(/\D/g, '');
+
+    value = value.match(/.{1,4}/g)?.join(' ') || value;
+
+    this.cardForm.get('cardNumber')?.setValue(value, { emitEvent: false });
+  }
 
   payCard() {
 
@@ -58,14 +70,40 @@ export class PaymentMethodComponent implements OnInit {
     this.router.navigate(['/payment-result']);
   }
 
-  expiryValidator(control: any) {
-
-    if (!control.value) return null;
-
-    const today = new Date();
-    const expiry = new Date(control.value);
-
-    return expiry > today ? null : { expired: true };
+  formatExpiry() {
+    let value = this.cardForm.get('expiry')?.value || '';
+    value = value.replace(/\D/g, '');
+    value = value.substring(0, 4);
+    if (value.length >= 3) {
+      value = value.substring(0, 2) + '/' + value.substring(2);
+    }
+    this.cardForm.get('expiry')?.setValue(value, { emitEvent: false });
   }
 
+  expiryValidator(control: AbstractControl) {
+    const value = control.value;
+
+    if (!value) return null;
+
+    const match = value.match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+    if (!match) {
+      return { invalidFormat: true };
+    }
+
+    const month = Number(match[1]);
+    const year = Number(match[2]);
+
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100;
+    const currentMonth = now.getMonth() + 1;
+
+    if (
+      year < currentYear ||
+      (year === currentYear && month < currentMonth)
+    ) {
+      return { expired: true };
+    }
+
+    return null;
+  }
 }

@@ -1,4 +1,4 @@
-<div>
+<div class="content-wrapper">
 
   <h2>Mis Reservas</h2>
 
@@ -10,60 +10,45 @@
     No tienes reservas
   </div>
 
-  <div *ngFor="let reservation of reservations">
+  <div class="reservations-list">
 
-    <h3>{{ reservation.route_name }}</h3>
+    <div class="reservation-card" *ngFor="let reservation of reservations">
 
-    <p>
-      <strong>Origen:</strong>
-      {{ reservation.origin_name }}
-    </p>
+      <h3 class="card-title">
+        Ruta {{ reservation.route_name }}
+      </h3>
 
-    <p>
-      <strong>Destino:</strong>
-      {{ reservation.destination_name }}
-    </p>
+      <div class="reservation-data">
 
-    <p>
-      <strong>Fecha:</strong>
-      {{ reservation.departure_date | date:'dd/MM/yyyy HH:mm' }}
-    </p>
+        <div><strong>Origen:</strong> {{ reservation.origin_name }}</div>
+        <div><strong>Destino:</strong> {{ reservation.destination_name }}</div>
+        <div><strong>Fecha:</strong> {{ reservation.departure_date | date:'dd/MM/yyyy HH:mm' }}</div>
 
-    <p>
-      <strong>Referencia:</strong>
-      {{ reservation.id }}
-    </p>
+        <div><strong>Referencia:</strong> {{ reservation.id }}</div>
+        <div><strong>Coste:</strong> {{ reservation.total_price }} €</div>
+        <div><strong>DNI:</strong> {{ reservation.dni }}</div>
 
-    <p>
-      <strong>Coste:</strong>
-      {{ reservation.total_price }} €
-    </p>
+        <div><strong>Estado:</strong> {{ reservation.status }}</div>
 
-    <p>
-      <strong>DNI:</strong>
-      {{ reservation.dni }}
-    </p>
+      </div>
 
-    <p>
-      <strong>Estado:</strong>
-      {{ reservation.status }}
-    </p>
+      <div class="actions">
 
-    <button 
-      (click)="cancelReservation(reservation.id)"
-      *ngIf="reservation.status === 'pendiente'"
-    >
-      Cancelar reserva
-    </button>
+        <button 
+          (click)="cancelReservation(reservation.id)"
+          *ngIf="reservation.status === 'pendiente'">
+          Cancelar
+        </button>
 
-    <button 
-      (click)="goToRating(reservation.route_id)"
-      *ngIf="reservation.status === 'completado' && reservation.route_id !== 0"
-    >
-      Valorar
-    </button>
+        <button 
+          (click)="goToRating(reservation.route_id)"
+          *ngIf="reservation.status === 'completado' && reservation.route_id !== 0">
+          Valorar
+        </button>
 
-    <hr>
+      </div>
+
+    </div>
 
   </div>
 

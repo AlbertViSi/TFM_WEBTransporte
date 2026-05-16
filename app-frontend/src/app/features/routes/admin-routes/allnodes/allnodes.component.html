@@ -1,0 +1,63 @@
+<div class="content-wrapper">
+
+  <button (click)="goBack()">
+    ← Volver
+  </button>
+
+  <h2>Todos los nodos</h2>
+
+  <app-subnode-form
+    [nodes]="mainNodes"
+    (created)="loadNodes()">
+  </app-subnode-form>
+
+  <div 
+    *ngFor="let node of mainNodes"
+    class="node-block"
+  >
+
+    <div class="node-header">
+
+      <h3>
+        {{ node.name }}
+        ({{ getSubnodesByParent(node.id).length }} subnodos)
+      </h3>
+
+      <button (click)="toggle(node.id)">
+        {{ isExpanded(node.id) ? 'Ocultar' : 'Mostrar' }}
+      </button>
+
+    </div>
+
+    <div 
+      *ngIf="isExpanded(node.id)"
+      class="subnodes"
+    >
+
+      <div
+        *ngFor="let sub of getSubnodesByParent(node.id)"
+        class="subnode-row"
+      >
+
+        <span>
+          - {{ sub.name }}
+        </span>
+
+        <div class="actions">
+
+          <app-delete-subnode
+            [subnodeId]="sub.id" 
+            (deleted)="loadNodes()">
+          </app-delete-subnode>
+
+          <app-reassign-subnode
+            [subnodeId]="sub.id"
+            [mainNodes]="mainNodes" 
+            (reassigned)="loadNodes()">
+          </app-reassign-subnode>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

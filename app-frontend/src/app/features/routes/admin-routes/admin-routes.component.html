@@ -1,0 +1,45 @@
+<div class="content-wrapper">
+
+  <h2>Gestión de rutas</h2>
+
+  <div class="routes-table">
+
+    <div class="row header">
+      <div>Ruta</div>
+      <div>Nodos</div>
+      <div>Comentarios</div>
+    </div>
+
+    <div 
+      class="row"
+      *ngFor="let route of routes"
+    >
+      <div class="route-name">{{ route.name }}</div>
+
+      <div>
+        <button 
+          (click)="goToNodes(route.id)"
+          *ngIf="auth.hasRole(['admin','node_builder'])">
+          Ver nodos
+        </button>
+      </div>
+
+      <div>
+        <button 
+          (click)="goToComments(route.id)"
+          *ngIf="auth.hasRole(['admin','moderator'])">
+          Ver comentarios
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <button 
+    class="all-nodes-btn"
+    (click)="goToAllNodes()" 
+    *ngIf="auth.hasRole(['admin','node_builder'])">
+    Ver todos los nodos
+  </button>
+
+</div>

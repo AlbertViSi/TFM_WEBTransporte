@@ -11,6 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
     CommonModule
   ],
   templateUrl: './topbar.component.html',
+  styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent {
 

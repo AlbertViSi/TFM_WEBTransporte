@@ -10,7 +10,8 @@ export const API_ENDPOINTS = {
   users: {
     getAll: '/admin/users',
     create: '/admin/users',
-    delete: (id: number) => `/admin/users/${id}`
+    reactivate: (id: number) => `/admin/users/${id}/reactivate`,
+    deactivate: (id: number) => `/admin/users/${id}/deactivate`
   },
 
   routes: {
@@ -19,6 +20,7 @@ export const API_ENDPOINTS = {
     updateCapacity: (id: number) => `/routes/${id}/capacity`,
     updateBasePrice: (id: number) => `/routes/${id}/base-price`,
     DETAIL: (routeId: number | string) => `/routes/detail/${routeId}`,
+    nodesByRoute: (routeId: number | string) => `/routes/${routeId}/nodes`,
   },
 
   reservations: {

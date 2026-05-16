@@ -1,35 +1,45 @@
-<h2>Resultados</h2>
+<div class="content-wrapper">
 
-<div *ngIf="loading">
-  Cargando...
-</div>
+  <h2>Resultados</h2>
 
+  <div *ngIf="loading">
+    Cargando...
+  </div>
 
-<div *ngIf="!loading && results.length > 0">
-  <mat-card *ngFor="let route of results" (click)="goToDetail(route)" class="clickable-card">
-    <mat-card-title>
-      {{ route.route_name }}
-    </mat-card-title>
+  <div *ngIf="!loading && results.length > 0" class="results-list">
 
-    <mat-card-content>
-      <p>
-        Distancia:
-        {{ route.estimated_distance | number:'1.0-2' }} km
-      </p>
+    <mat-card 
+      *ngFor="let route of results" 
+      (click)="goToDetail(route)" 
+      class="clickable-card">
 
-      <p>
-        Precio:
-        {{ route.estimated_price | currency:'EUR' }}
-      </p>
+      <h3 class="card-title">
+        {{ route.route_name }}
+      </h3>
 
-      <p>
-        Plazas disponibles:
-        {{ route.available_seats }}
-      </p>
-    </mat-card-content>
-  </mat-card>
-</div>
+      <mat-card-content>
+        <p>
+          Distancia:
+          {{ route.estimated_distance | number:'1.0-2' }} km
+        </p>
 
-<div *ngIf="!loading && results.length === 0">
-  No se encontraron rutas disponibles
+        <p>
+          Precio:
+          {{ route.estimated_price | currency:'EUR' }}
+        </p>
+
+        <p>
+          Plazas disponibles:
+          {{ route.available_seats }}
+        </p>
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+  <div *ngIf="!loading && results.length === 0">
+    No se encontraron rutas disponibles
+  </div>
+
 </div>

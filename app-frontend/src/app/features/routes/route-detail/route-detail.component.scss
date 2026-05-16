@@ -1,0 +1,77 @@
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+/* BLOQUE DETALLE */
+.detail-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* TÍTULO */
+.card-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Ruta */
+.route-path {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+/* BOTÓN */
+.action {
+  margin-bottom: 2rem;
+}
+
+button {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+}
+
+.comments-title {
+  margin-bottom: 1rem;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  padding: 0.8rem 0;
+  border-left: 3px solid #000000;
+  padding-left: 1rem;
+}
+
+.comment:hover {
+  background: #fafafa;
+}
+
+.comment:not(:last-child) {
+  border-bottom: 3px solid #fff;
+}
+
+.comment p {
+  margin: 0.3rem 0;
+}
+
+.comment small {
+  color: #777;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.4rem;
+  }
+}

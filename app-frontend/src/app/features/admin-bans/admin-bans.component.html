@@ -1,42 +1,45 @@
-<h2>Gestión de Baneos</h2>
+<div class="content-wrapper">
 
-<button (click)="goToBanCreate()">
-  Añadir Ban
-</button>
+  <h2>Gestión de Baneos</h2>
 
-<br><br>
+  <button (click)="goToBanCreate()">
+    Añadir Ban
+  </button>
 
-<input
-  type="text"
-  placeholder="Buscar DNI"
-  [(ngModel)]="search"
-/>
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Buscar DNI"
+      [(ngModel)]="search"
+    />
+  </div>
 
-<hr>
+  <div class="table">
 
-<table>
+    <div class="row header">
+      <div>DNI</div>
+      <div>Razón</div>
+      <div>Expiración</div>
+      <div>Estado</div>
+      <div></div>
+    </div>
 
-<tr>
-  <th>DNI</th>
-  <th>Razón</th>
-  <th>Expiración</th>
-  <th>Estado</th>
-  <th></th>
-</tr>
+    <div 
+      class="row"
+      *ngFor="let ban of filteredBans"
+    >
+      <div>{{ ban.dni }}</div>
+      <div>{{ ban.reason }}</div>
+      <div>{{ ban.expires_at | date }}</div>
+      <div>{{ ban.status }}</div>
 
-<tr *ngFor="let ban of filteredBans">
+      <div>
+        <button (click)="deleteBan(ban.id)">
+          Eliminar
+        </button>
+      </div>
+    </div>
 
-  <td>{{ ban.dni }}</td>
-  <td>{{ ban.reason }}</td>
-  <td>{{ ban.expires_at | date }}</td>
-  <td>{{ ban.status }}</td>
+  </div>
 
-  <td>
-    <button (click)="deleteBan(ban.id)">
-      Eliminar
-    </button>
-  </td>
-
-</tr>
-
-</table>
+</div>

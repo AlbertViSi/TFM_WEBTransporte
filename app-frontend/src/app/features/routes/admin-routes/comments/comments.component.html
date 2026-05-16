@@ -1,0 +1,51 @@
+<div class="content-wrapper">
+
+  <button (click)="goBack()">
+    ← Volver
+  </button>
+
+  <h2>Moderación de comentarios</h2>
+
+  <h3>
+    Ruta: {{ routeName }}
+  </h3>
+
+  <p *ngIf="comments.length === 0">
+    No hay comentarios
+  </p>
+
+  <div
+    *ngFor="let comment of comments"
+    class="comment-block"
+  >
+
+    <div class="comment-header">
+
+      <strong>
+        {{ comment.email }}
+      </strong>
+
+      <small>
+        {{ comment.created_at | date:'short' }}
+      </small>
+
+    </div>
+
+    <p class="comment-content">
+      {{ comment.content }}
+    </p>
+
+    <div class="comment-actions">
+
+      <button
+        *ngIf="auth.hasRole(['admin', 'moderator'])"
+        (click)="deleteComment(comment.id)"
+      >
+        Eliminar comentario
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

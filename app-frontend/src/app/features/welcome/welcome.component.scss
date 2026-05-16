@@ -1,0 +1,19 @@
+.welcome {
+    text-align: center;
+    padding: 3.5rem;
+    line-height:1.5;
+}
+
+@media (max-width: 768px) {
+  .welcome {
+    text-align: center;
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome {
+    text-align: center;
+    padding: 1rem;
+  }
+}

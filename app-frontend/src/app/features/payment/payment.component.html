@@ -1,43 +1,51 @@
-<h1>Reserva</h1>
+<div class="content-wrapper">
 
-<form [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Reserva</h2>
 
-  <label>DNI</label>
-  <input type="text" formControlName="dni" style="text-transform: uppercase">
-  <div *ngIf="form.get('dni')?.touched && form.get('dni')?.invalid">
-    <small *ngIf="form.get('dni')?.errors?.['required']">
-      El DNI es obligatorio
-    </small>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="reservation-form">
 
-    <small *ngIf="form.get('dni')?.errors?.['invalidFormat']">
-      Formato inválido (12345678A)
-    </small>
+    <div class="field">
+      <label>DNI</label>
+      <input type="text" 
+        formControlName="dni" 
+        style="text-transform: uppercase" 
+        [class.invalid]="form.get('dni')?.touched && form.get('dni')?.invalid"
+        [class.valid]="form.get('dni')?.touched && form.get('dni')?.valid">
 
-    <small *ngIf="form.get('dni')?.errors?.['invalidLetter']">
-      Letra del DNI incorrecta
-    </small>
-  </div>
+      <div class="error" *ngIf="form.get('dni')?.touched && form.get('dni')?.invalid">
 
-  <h3>Método de pago</h3>
+        <small *ngIf="form.get('dni')?.errors?.['required']">
+          El DNI es obligatorio
+        </small>
 
-  <label>
-    <input 
-      type="radio" 
-      value="card" 
-      formControlName="paymentMethod">
-    Tarjeta
-  </label>
+        <small *ngIf="form.get('dni')?.errors?.['invalidFormat']">
+          Formato inválido (12345678A)
+        </small>
 
-  <label>
-    <input 
-      type="radio" 
-      value="bizum" 
-      formControlName="paymentMethod">
-    Bizum
-  </label>
+        <small *ngIf="form.get('dni')?.errors?.['invalidLetter']">
+          Letra del DNI incorrecta
+        </small>
+      </div>
+    </div>
 
-  <button type="submit">
-    Continuar
-  </button>
+    <div class="field">
+      <h3>Método de pago</h3>
 
-</form>
+      <div class="radio-group">
+        <label>
+          <input type="radio" value="card" formControlName="paymentMethod">
+          Tarjeta
+        </label>
+
+        <label>
+          <input type="radio" value="bizum" formControlName="paymentMethod">
+          Bizum
+        </label>
+      </div>
+    </div>
+
+    <button type="submit">
+      Continuar
+    </button>
+  </form>
+</div>

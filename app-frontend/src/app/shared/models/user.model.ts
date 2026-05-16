@@ -3,6 +3,7 @@ export interface User {
   username: string;
   email: string;
   role_id: number;
+  active: boolean;
 }
 
 export interface RegisterDto {

@@ -41,7 +41,7 @@ export class ResultsComponent implements OnInit {
         .searchRoutes(origin, destination, date)
         .subscribe(data => {
           this.results = data;
-          console.log(data);
+          //console.log(data);
           this.loading = false;
           this.cd.detectChanges();
         });

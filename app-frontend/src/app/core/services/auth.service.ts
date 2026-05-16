@@ -3,6 +3,7 @@ import { Api } from './api';
 import { BehaviorSubject } from 'rxjs';
 import { RegisterDto } from '../../shared/models/user.model';
 import { API_ENDPOINTS } from '../endpoints/api-endpoints';
+import { ROLE } from '../../shared/roles';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,6 @@ export class AuthService {
   }
 
   setUser(session: any) {
-    console.log("SET USER:", session);
     localStorage.setItem('user', JSON.stringify(session));
     localStorage.setItem('token', session.token);
 
@@ -46,13 +46,29 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  getRoleId(): number | null {
+  getRole(): string | null {
     const user = this.userSubject.value;
-    return user?.role_id ?? null;
+    return user?.role_name ?? null;
   }
 
-  isAdmin(): boolean {
-    return this.getRoleId() === 1;
+  isAdmin() {
+    return this.hasRole([ROLE.ADMIN]);
+  }
+
+  isModerator() {
+    return this.hasRole([ROLE.MODERATOR]);
+  }
+
+  isNodeBuilder() {
+    return this.hasRole([ROLE.NODE_BUILDER]);
+  }
+
+  isAdminOrModerator() {
+    return this.hasRole([ROLE.ADMIN, ROLE.MODERATOR]);
+  }
+
+  isRouteManager() {
+    return this.hasRole([ROLE.ADMIN, ROLE.MODERATOR, ROLE.NODE_BUILDER]);
   }
 
   init() {
@@ -67,5 +83,10 @@ export class AuthService {
     const user = localStorage.getItem('user');
     const parsed = user ? JSON.parse(user) : null;
     return parsed?.user ?? null;
+  }
+
+  hasRole(roles: string[]): boolean {
+    const role = this.getRole();
+    return !!role && roles.includes(role);
   }
 }

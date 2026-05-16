@@ -1,0 +1,56 @@
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.payment-form {
+  max-width: 420px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border 0.2s ease;
+}
+
+input.ng-touched.ng-invalid {
+  border-color: #d32f2f;
+}
+
+input.ng-touched.ng-valid {
+  border-color: #2e7d32;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .payment-form {
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+}

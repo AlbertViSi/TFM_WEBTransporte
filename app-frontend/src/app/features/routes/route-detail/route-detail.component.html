@@ -1,40 +1,43 @@
-<h1>Detalles</h1>
+<div class="content-wrapper">
+  <h2>Detalles</h2>
 
-<mat-card *ngIf="route">
+  <div *ngIf="route" class="detail-card">
+    <h3 class="card-title">
+      Ruta {{ route.name }}
+    </h3>
 
-  <h2>Ruta {{ route.name }}</h2>
+    <p class="route-path">
+      {{ originName }} - {{ destinationName }}
+    </p>
 
-  <p>
-    {{ originName }} - {{ destinationName }}
-  </p>
+    <p>
+      Precio: {{ price }}€
+    </p>
 
-  <p>Price: {{price}}€</p>
+    <p>
+      ⭐ {{ ratingAvg }} ({{ ratingCount }} valoraciones)
+    </p>
+  </div>
 
-  <p>
-    ⭐ {{ ratingAvg }} ({{ ratingCount }} valoraciones)
-  </p>
+  <div class="action">
+    <button 
+      *ngIf="isLogged"
+      (click)="goToReservation()">
+      Reservar
+    </button>
+  </div>
 
-</mat-card>
+  <h3 class="comments-title">Comentarios</h3>
 
-<button 
-  *ngIf="isLogged"
-  (click)="goToReservation()"
-  mat-raised-button
-  color="primary"
->
-  Reservar
-</button>
+  <div class="comments-list">
+    <div class="comment" *ngFor="let comment of comments">
+      <strong>{{ comment.username }}</strong>
 
-<h3>Comentarios</h3>
+      <p>{{ comment.content }}</p>
 
-<mat-card *ngFor="let comment of comments">
-
-  <strong>{{ comment.username }}</strong>
-
-  <p>{{ comment.content }}</p>
-
-  <small>
-    {{ comment.created_at | date:'short' }}
-  </small>
-
-</mat-card>
+      <small>
+        {{ comment.created_at | date:'short' }}
+      </small>
+    </div>
+  </div>
+</div>

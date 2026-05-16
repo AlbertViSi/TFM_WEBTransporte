@@ -1,37 +1,41 @@
-<h1>Simulación de pago</h1>
+<div class="payment-wrapper">
 
-<div *ngIf="loading">
-  Procesando pago...
-</div>
+  <h2>Simulación de pago</h2>
 
-<div *ngIf="!loading && !success && !error">
+  <div *ngIf="loading">
+    Procesando pago...
+  </div>
 
-  <p>Simulación de plataforma de pago</p>
+  <div *ngIf="!loading && !success && !error" class="payment-actions">
 
-  <button (click)="confirmPayment()">
-    Pago aceptado
-  </button>
+    <p>Simulación de plataforma de pago</p>
 
-  <button (click)="rejectPayment()">
-    Pago rechazado
-  </button>
+    <div class="buttons">
+      <button (click)="confirmPayment()">
+        Pago aceptado
+      </button>
 
-</div>
+      <button class="secondary" (click)="rejectPayment()">
+        Pago rechazado
+      </button>
+    </div>
+  </div>
 
-<div *ngIf="success">
-  <h2>Pago aceptado</h2>
-  <p>Reserva confirmada correctamente</p>
+  <div *ngIf="success" class="result success">
+    <h3>Pago aceptado</h3>
+    <p>Reserva confirmada correctamente</p>
 
-  <button (click)="goHome()">
-    Volver al inicio
-  </button>
-</div>
+    <button (click)="goHome()">
+      Volver al inicio
+    </button>
+  </div>
 
-<div *ngIf="error">
-  <h2>Error</h2>
-  <p>{{ error }}</p>
+  <div *ngIf="error" class="result error">
+    <h3>Error</h3>
+    <p>{{ error }}</p>
 
-  <button (click)="goHome()">
-    Volver al inicio
-  </button>
+    <button (click)="goHome()">
+      Volver al inicio
+    </button>
+  </div>
 </div>

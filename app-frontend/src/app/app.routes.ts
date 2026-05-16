@@ -105,6 +105,48 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/admin-bans/create-ban/create-ban.component')
         .then(m => m.CreateBanComponent)
+  },
+
+  {
+    path: 'adminusuarios',
+    loadComponent: () =>
+      import('./features/admin-users/admin-users.component')
+        .then(m => m.UserComponent)
+  },
+
+  {
+    path: 'adminusuarios/create',
+    loadComponent: () =>
+      import('./features/create-user/create-user.component')
+        .then(m => m.CreateUserComponent)
+  },
+
+  {
+    path: 'admin-routes',
+    loadComponent: () =>
+      import('./features/routes/admin-routes/admin-routes.component')
+        .then(m => m.AdminRoutesComponent)
+  },
+
+  {
+    path: 'admin-routes/comments/:route_id',
+    loadComponent: () =>
+      import('./features/routes/admin-routes/comments/comments.component')
+        .then(m => m.CommentsComponent)
+  },
+
+  {
+    path: 'admin-routes/all-nodes',
+    loadComponent: () =>
+      import('./features/routes/admin-routes/allnodes/allnodes.component')
+        .then(m => m.AllNodesComponent)
+  },
+
+  {
+    path: 'admin-routes/nodes/:route_id',
+    loadComponent: () =>
+      import('./features/routes/admin-routes/routenodes/routenodes.component')
+        .then(m => m.RouteNodesComponent)
   }
 
 ];

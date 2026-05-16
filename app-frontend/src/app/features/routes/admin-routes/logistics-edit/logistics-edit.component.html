@@ -1,0 +1,41 @@
+<button (click)="toggle()">
+  {{ showForm ? 'Ocultar edición' : 'Editar ruta' }}
+</button>
+
+<div *ngIf="showForm" class="edit-form">
+
+  <div class="field">
+
+    <label>
+      Capacidad actual: {{ currentCapacity }}
+    </label>
+
+    <input
+      type="number"
+      [(ngModel)]="newCapacity"
+      placeholder="Nueva capacidad"
+    />
+
+    <button (click)="updateCapacity()">
+      Actualizar capacidad
+    </button>
+
+  </div>
+
+  <div class="field">
+
+    <label>
+      Precio base actual: {{ currentPrice }} €
+    </label>
+
+    <input
+      type="number"
+      [(ngModel)]="newPrice"
+      placeholder="Nuevo precio"
+    />
+
+    <button (click)="updatePrice()">
+      Actualizar precio
+    </button>
+  </div>
+</div>

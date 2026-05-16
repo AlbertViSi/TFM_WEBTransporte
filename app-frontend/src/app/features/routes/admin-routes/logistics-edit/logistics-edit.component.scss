@@ -1,0 +1,44 @@
+.edit-form {
+  margin-top: 1rem;
+  max-width: 320px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+
+  margin-bottom: 1rem;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+input {
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+
+  &:focus {
+    outline: none;
+    border-color: #888;
+  }
+}
+
+button {
+  width: fit-content;
+
+  padding: 0.4rem 0.75rem;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #222;
+  }
+}

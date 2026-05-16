@@ -8,7 +8,8 @@ import { AdminBansService } from '../../../core/services/admin-bans.service';
   selector: 'app-create-ban',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './create-ban.component.html'
+  templateUrl: './create-ban.component.html',
+  styleUrl: './create-ban.component.scss',
 })
 export class CreateBanComponent {
 

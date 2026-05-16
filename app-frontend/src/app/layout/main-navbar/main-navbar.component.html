@@ -1,23 +1,34 @@
-<nav *ngIf="user$ | async as user">
+<nav class="main-navbar" *ngIf="user$ | async as user">
 
-  <a *ngIf="user.role_id === 2" routerLink="/">
+  <a *ngIf="auth.hasRole([ROLE.USER])"
+     routerLink="/"
+     routerLinkActive="active"
+     [routerLinkActiveOptions]="{ exact: true }">
     Trayectos
   </a>
 
-  <a *ngIf="user.role_id === 2" routerLink="/my-reservations">
+  <a *ngIf="auth.hasRole([ROLE.USER])"
+     routerLink="/my-reservations"
+     routerLinkActive="active">
     Mis reservas
   </a>
 
-  <a *ngIf="user.role_id === 1 || user.role_id === 3 || user.role_id === 4" routerLink="/nodos">
-    Nodos
+  <a *ngIf="auth.isRouteManager()"
+     routerLink="/admin-routes"
+     routerLinkActive="active">
+    Gestor de rutas
   </a>
 
-  <a *ngIf="user.role_id === 1 || user.role_id === 3" routerLink="/listbans">
+  <a *ngIf="auth.isAdminOrModerator()"
+     routerLink="/listbans"
+     routerLinkActive="active">
     Lista bans
   </a>
 
-  <a *ngIf="user.role_id === 1" routerLink="/listausuarios">
-    Lista usuarios
+  <a *ngIf="auth.isAdmin()"
+     routerLink="/adminusuarios"
+     routerLinkActive="active">
+    Administrar usuarios
   </a>
 
 </nav>

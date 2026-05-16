@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
     CommonModule, 
     FormsModule
   ],
-  templateUrl: './admin-bans.component.html'
+  templateUrl: './admin-bans.component.html',
+  styleUrl: './admin-bans.component.scss',
 })
 export class AdminBansComponent {
 
@@ -35,7 +36,6 @@ export class AdminBansComponent {
   loadBans() {
     this.bansService.getBans()
       .subscribe((data: any) => {
-        console.log("BANS:", data);
         this.bans = data;
         this.cd.detectChanges();
       });

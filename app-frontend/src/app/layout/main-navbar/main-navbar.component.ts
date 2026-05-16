@@ -1,19 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { ROLE } from '../../shared/roles';
 
 @Component({
   selector: 'app-main-navbar',
   standalone: true,
   imports: [
     RouterLink,
-    CommonModule
+    CommonModule,
+    RouterLinkActive,
   ],
   templateUrl: './main-navbar.component.html',
+  styleUrl: './main-navbar.component.scss',
 })
 export class MainNavbarComponent {
-  private auth = inject(AuthService);
-
+  auth = inject(AuthService);
+  ROLE = ROLE;
   user$ = this.auth.user$;
+
+  hasRole(user: any, roles: string[]): boolean {
+    return roles.includes(user.role_name);
+  }
 }

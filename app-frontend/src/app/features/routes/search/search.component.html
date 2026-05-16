@@ -1,29 +1,42 @@
-<form [formGroup]="form" (ngSubmit)="search()">
+<div class="search-wrapper">
 
-  <p>Origen</p>
-  <app-autofill 
-    label="Origen"
-    [options]="origins"
-    (selected)="setOrigin($event)"
-  ></app-autofill>
+  <form [formGroup]="form" (ngSubmit)="search()" class="search-form">
 
-  <p>Destino</p>
-  <app-autofill 
-    label="Destino"
-    [options]="destinations"
-    (selected)="setDestination($event)"
-  ></app-autofill>
+    <div class="field">
+      <label>Origen</label>
+      <app-autofill 
+        label="Origen"
+        [options]="origins"
+        (selected)="setOrigin($event)"
+      ></app-autofill>
+    </div>
 
-  <p>Fecha</p>
-  <input 
-    type="date"
-    [min]="minDate"
-    formControlName="date"
-  />
+    <div class="field">
+      <label>Destino</label>
+      <app-autofill 
+        label="Destino"
+        [options]="destinations"
+        (selected)="setDestination($event)"
+      ></app-autofill>
+    </div>
 
-  <button type="submit" 
-    [disabled]="form.invalid || !originId || !destinationId">
-    Buscar
-  </button>
+    <div class="field">
+      <label>Fecha</label>
+      <input 
+        type="date"
+        [min]="minDate"
+        formControlName="date"
+      />
+    </div>
 
-</form>
+    <div class="actions">
+      <button 
+        type="submit" 
+        [disabled]="form.invalid || !originId || !destinationId">
+        Buscar
+      </button>
+    </div>
+
+  </form>
+
+</div>

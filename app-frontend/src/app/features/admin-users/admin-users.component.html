@@ -1,0 +1,40 @@
+<div class="content-wrapper">
+
+  <h2>Usuarios</h2>
+
+  <button (click)="goToCreateUser()">
+    Añadir nuevo usuario
+  </button>
+
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Buscar usuario o email"
+      [(ngModel)]="search"
+    />
+  </div>
+
+  <div class="table">
+    <div class="row header">
+      <div>Usuario</div>
+      <div>Email</div>
+      <div>Rol</div>
+      <div></div>
+    </div>
+
+    <div 
+      class="row"
+      *ngFor="let user of filteredUsers"
+    >
+      <div>{{ user.username }}</div>
+      <div>{{ user.email }}</div>
+      <div>{{ getRoleName(user.role_id) }}</div>
+
+      <div>
+        <button (click)="toggleUser(user)">
+          {{ user.active ? 'Desactivar' : 'Reactivar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

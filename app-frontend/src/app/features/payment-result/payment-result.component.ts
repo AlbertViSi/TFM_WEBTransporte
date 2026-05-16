@@ -52,7 +52,6 @@ export class PaymentResultComponent {
         this.loading = false;
       }
     });
-
   }
 
   rejectPayment() {
@@ -64,5 +63,4 @@ export class PaymentResultComponent {
   goHome() {
     this.router.navigate(['/']);
   }
-
 }

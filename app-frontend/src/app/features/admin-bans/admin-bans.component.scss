@@ -1,0 +1,74 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* FILAS */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr auto;
+  align-items: center;
+
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid #eee;
+
+  transition: background 0.15s ease;
+}
+
+.header {
+  background: #ffe483;
+  font-weight: 600;
+}
+
+.row:not(.header):hover {
+  background: #dff5e1;
+}
+
+.row:not(.header):active {
+  background: #c9ffc4;
+}
+
+/* quitar último borde */
+.row:last-child {
+  border-bottom: none;
+}
+
+.row > div {
+  padding: 0.2rem 0.4rem;
+}
+
+.search-box {
+  margin: 1rem 0;
+
+  input {
+    width: 250px;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    &:focus {
+      outline: none;
+      border-color: #888;
+    }
+  }
+}
+
+button {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #222;
+  }
+}

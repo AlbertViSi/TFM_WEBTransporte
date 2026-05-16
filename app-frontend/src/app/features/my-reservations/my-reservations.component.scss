@@ -1,0 +1,61 @@
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.reservation-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.card-title {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.reservation-data {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem 1.5rem;
+}
+
+.reservation-data div {
+  font-size: 0.95rem;
+}
+
+.actions {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .reservation-data {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .reservation-data {
+    grid-template-columns: 1fr;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+}
