@@ -16,15 +16,14 @@ html {
 
 body {
   color-scheme: light;
+  min-height: 100%;
 
   background-color: #F7F6F2;
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
   margin: 0;
-  height: 100%;
-
-  padding: 1.5rem;
+  
   @media (max-width: 768px){
     padding: 1.0rem;
   }
@@ -36,4 +35,11 @@ body {
 .content-wrapper {
   padding: 0.5rem 2rem;
   margin: 0 0;
+}
+
+app-root {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  min-height: 100vh;
 }

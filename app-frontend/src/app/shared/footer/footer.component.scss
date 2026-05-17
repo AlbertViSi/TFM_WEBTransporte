@@ -1,15 +1,14 @@
 .footer {
   background-color: #000;
   color: #fff;
-
   padding: 20px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   flex-wrap: wrap;
   gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-links {
