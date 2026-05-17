@@ -10,7 +10,8 @@ import { API_ENDPOINTS } from '../../core/endpoints/api-endpoints';
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
   

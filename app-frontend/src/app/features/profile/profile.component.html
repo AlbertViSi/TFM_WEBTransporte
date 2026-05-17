@@ -1,48 +1,71 @@
-<h2>Perfil</h2>
+<div class="content-wrapper">
 
-<div *ngIf="user">
+  <h2>Perfil</h2>
 
-  <p>
-    <strong>Usuario:</strong> {{ user?.username }}
-  </p>
+  <div *ngIf="user" class="profile-info">
 
-  <p>
-    <strong>Email:</strong> {{ user?.email }}
-  </p>
+    <p>
+      <strong>Usuario:</strong>
+      {{ user?.username }}
+    </p>
 
+    <p>
+      <strong>Email:</strong>
+      {{ user?.email }}
+    </p>
+
+  </div>
+
+  <div *ngIf="!user" class="profile-error">
+
+    <p>Fallo en la carga de datos</p>
+
+    <button (click)="loadProfile()">
+      Recargar perfil
+    </button>
+
+  </div>
+
+  <hr>
+
+  <h3>Cambiar contraseña</h3>
+
+  <form
+    [formGroup]="passwordForm"
+    (ngSubmit)="changePassword()"
+    class="password-form"
+  >
+
+    <div class="field">
+      <label>Contraseña actual</label>
+
+      <input
+        type="password"
+        formControlName="currentPassword"
+      >
+    </div>
+
+    <div class="field">
+      <label>Nueva contraseña</label>
+
+      <input
+        type="password"
+        formControlName="newPassword"
+      >
+    </div>
+
+    <div class="field">
+      <label>Confirmar contraseña</label>
+
+      <input
+        type="password"
+        formControlName="confirmPassword"
+      >
+    </div>
+
+    <button type="submit">
+      Cambiar contraseña
+    </button>
+
+  </form>
 </div>
-
-<div *ngIf="!user">
-  <p>Fallo en la carga de datos</p>
-
-  <button (click)="loadProfile()">
-    Recargar perfil
-  </button>
-</div>
-
-<hr>
-
-<h3>Cambiar contraseña</h3>
-
-<form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-
-  <div>
-    <label>Contraseña actual</label>
-    <input type="password" formControlName="currentPassword">
-  </div>
-
-  <div>
-    <label>Nueva contraseña</label>
-    <input type="password" formControlName="newPassword">
-  </div>
-
-  <div>
-    <label>Confirmar contraseña</label>
-    <input type="password" formControlName="confirmPassword">
-  </div>
-
-  <button type="submit">
-    Cambiar contraseña
-  </button>
-
-</form>
