@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { TopbarComponent } from './layout/navbar/topbar.component';
 import { MainNavbarComponent } from './layout/main-navbar/main-navbar.component';
 import { AuthService } from './core/services/auth.service';
+import { FooterComponent } from './shared/footer/footer';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { AuthService } from './core/services/auth.service';
     CommonModule,
     RouterOutlet,
     TopbarComponent,
-    MainNavbarComponent
+    MainNavbarComponent,
+    FooterComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
