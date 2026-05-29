@@ -12,7 +12,8 @@ import { forkJoin } from 'rxjs';
     CommonModule, 
     FormsModule
   ],
-  templateUrl: './rate-route.component.html'
+  templateUrl: './rate-route.component.html',
+  styleUrl:'./rate-route.component.scss',
 })
 export class RateRouteComponent {
 
